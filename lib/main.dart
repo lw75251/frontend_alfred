@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_alfred/main/login_screen.dart';
 import 'package:flutter_alfred/main/main_screen.dart';
+import 'package:flutter_alfred/routes/router.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  .then((_) {
+    runApp(new MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
-  final routes = <String, WidgetBuilder>{
-    LoginPage.tag: (context) => LoginPage(),
-    HomePage.tag: (context) => HomePage(),
-  };
+
+  MyApp(){
+    Routes.defineRoutes(router);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +26,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightBlue,
         fontFamily: 'Nunito',
       ),
-      home: LoginPage(),
-      routes: routes,
+      initialRoute: loginRoute,
+      onGenerateRoute: router.generator,
     );
   }
 }

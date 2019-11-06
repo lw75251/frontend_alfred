@@ -27,16 +27,14 @@ import 'package:flutter_alfred/routes/route_handlers.dart';
 
 
 
-const String welcomeRoute = "/";
-const String optionsRoute = "/settings/:header/:img";
-const String gameRoute = "/game/:header/:difficulty";
+const String loginRoute = "/login";
+const String homeRoute = "/";
 
 final router = Router();
 
 class Routes {
   static void defineRoutes(Router router) {
-    router.define(welcomeRoute, handler: mainHandler, transitionType: TransitionType.fadeIn);
-    // router.define(optionsRoute, handler: optionsHandler, transitionType: TransitionType.fadeIn);
-    // router.define(gameRoute, handler: gameHandler, transitionType: TransitionType.fadeIn);
+    router.define(loginRoute, handler: loginHandler, transitionType: TransitionType.fadeIn);
+    router.define(homeRoute, handler: homeHandler, transitionType: TransitionType.fadeIn);
   }
 }

@@ -22,8 +22,7 @@ dependencies:
 
   provider: ^3.1.0
   fluro: "^1.5.1"
-  flutter_page_indicator:
-  fluttertoast: ^3.1.3
+  intl: ^0.16.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -48,6 +47,7 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/alucard.jpg
+    - assets/images/placeholder.jpeg
   fonts:
       - family: Nunito
         fonts:

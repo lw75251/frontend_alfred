@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/custom/menu_item.dart';
 
-class HomePage extends StatelessWidget {
+class MenuScreen extends StatelessWidget {
   static String tag = 'home-page';
+
+  final List<MenuItem> items = [
+    MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 20, 
+      description: "Two pieces of finely crafted artisan chicken come with this deliciously long wooden stick",),
+    MenuItem("Satay Chicken Skewers Really Long", "assets/images/placeholder.jpeg", 10),
+    MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
+    MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
+    MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
+    ];
 
   @override
   Widget build(BuildContext context) {
@@ -17,38 +27,35 @@ class HomePage extends StatelessWidget {
       ),
     );
 
-    final welcome = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        'Welcome Alucard',
-        style: TextStyle(fontSize: 28.0, color: Colors.white),
-      ),
-    );
-
-    final lorem = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit condimentum mauris id tempor. Praesent eu commodo lacus. Praesent eget mi sed libero eleifend tempor. Sed at fringilla ipsum. Duis malesuada feugiat urna vitae convallis. Aliquam eu libero arcu.',
-        style: TextStyle(fontSize: 16.0, color: Colors.white),
-      ),
-    );
-
-    final body = Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(28.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Colors.blue,
-          Colors.lightBlueAccent,
-        ]),
-      ),
-      child: Column(
-        children: <Widget>[alucard, welcome, lorem],
-      ),
+    final appBar = AppBar(
+      leading: Icon(Icons.arrow_back),
+      title: Text("Food"),
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(Icons.check),
+        )
+      ],
     );
 
     return Scaffold(
-      body: body,
+      appBar: appBar,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.shopping_basket),
+        onPressed: (){},
+      ),
+      body: ListView.separated(
+          padding: const EdgeInsets.all(8),
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            return items[index];
+          },
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
+      )
+      // body: ListView.builder(
+      //   itemCount: items.length,
+      //   itemBuilder: (context, index) => items[index],
+      // ),
     );
   }
 }

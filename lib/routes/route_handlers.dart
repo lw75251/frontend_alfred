@@ -1,32 +1,17 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/main/login_screen.dart';
 import 'package:flutter_alfred/main/main_screen.dart';
 import 'package:flutter_alfred/routes/router.dart';
 import 'package:flutter_alfred/utils/fluro.dart';
 
 
-Handler welcomeHandler = Handler(
+Handler loginHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return Container();
+    return LoginPage();
   });
 
-Handler mainHandler = Handler(
+Handler homeHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return Container();
+    return MenuScreen();
   });
-
-Handler optionsHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-
-    // Map data = {"header": params["header"][0], "img": params["img"][0]};
-    Map data = FluroUtils.paramsToMap(optionsRoute, params);
-    return Container();
-  });
-
-Handler gameHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-
-    // Map Data: header, difficulty
-    Map data = FluroUtils.paramsToMap(gameRoute, params);
-    return Container();
-  });  
