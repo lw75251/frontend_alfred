@@ -31,9 +31,9 @@ class _QuantityControllerState extends State<QuantityController> {
         Text("Quantity"),
         Row( mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            IconButton(icon: Icon(Icons.add_circle), onPressed: _incrementQuantity),
+            IconButton(icon: Icon(Icons.remove_circle), onPressed: _decrementQuantity),
             Text("$_quantity"),
-            IconButton(icon: Icon(Icons.remove_circle), onPressed: _decrementQuantity)
+            IconButton(icon: Icon(Icons.add_circle), onPressed: _incrementQuantity),
         ])
       ])
     );

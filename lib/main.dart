@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_alfred/main/login_screen.dart';
-import 'package:flutter_alfred/main/main_screen.dart';
 import 'package:flutter_alfred/routes/router.dart';
 
 void main() {

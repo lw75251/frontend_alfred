@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/main_screen.dart';
 import 'package:flutter_alfred/routes/router.dart';
 
 
@@ -50,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          router.navigateTo(context, "/", 
+          router.navigateTo(context, homeRoute, 
             transitionDuration: const Duration(milliseconds: 200));
         },
         padding: EdgeInsets.all(12),
