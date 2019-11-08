@@ -12,6 +12,7 @@ class CategoryTile extends StatelessWidget {
           transitionDuration: const Duration(milliseconds: 200));
       },
       child: Container(
+        height: 100, width: 150,
         padding: const EdgeInsets.all(8),
         child: const Text('Category'),
         color: Colors.teal[200],
