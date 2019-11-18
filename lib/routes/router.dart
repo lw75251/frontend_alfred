@@ -38,8 +38,8 @@ final router = Router();
 class Routes {
   static void defineRoutes(Router router) {
     router.define(loginRoute, handler: loginHandler, transitionType: TransitionType.fadeIn);
-    // router.define(signUpRoute, handler: homeHandler, transitionType: TransitionType.inFromRight);
     router.define(homeRoute, handler: homeHandler);
+    router.define(signUpRoute, handler: signUpHandler);
     router.define(menuRoute, handler: menuHandler, transitionType: TransitionType.fadeIn);
     router.define(checkoutRoute, handler: checkoutHandler, transitionType: TransitionType.fadeIn);
   }

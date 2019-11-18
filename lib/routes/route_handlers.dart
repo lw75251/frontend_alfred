@@ -4,11 +4,17 @@ import 'package:flutter_alfred/main/bag_screen.dart';
 import 'package:flutter_alfred/main/login_screen.dart';
 import 'package:flutter_alfred/main/main_screen.dart';
 import 'package:flutter_alfred/main/menu_screen.dart';
+import 'package:flutter_alfred/main/signup_screen.dart';
 
 
 Handler loginHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
     return LoginPage();
+  });
+
+Handler signUpHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    return SignUpScreen();
   });
 
 Handler homeHandler = Handler(

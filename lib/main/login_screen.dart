@@ -126,9 +126,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     final color = Colors.white;
     _scale = 1 - _controller.value;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
           backgroundColor: Color(0xFF8185E2),
           body: Center(
             child: Column(
@@ -204,12 +202,16 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
               ),
               SizedBox(height: 50.0,),
                 DelayedAnimation(
-                  child: Text(
-                    "I Already have An Account".toUpperCase(),
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                        color: color),
+                  child: GestureDetector(
+                    onTapDown: _onSignInTapDown,
+                    onTapUp: _onSignInTapUp,
+                    child: Text(
+                      "I Already have An Account".toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: color),
+                    ),
                   ),
                   delay: delayedAmount + 5000,
                 ),
@@ -229,7 +231,6 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           //   ],
 
           // ),
-          ),
     );
   }
 
@@ -260,10 +261,49 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
-
     var transition = (BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
         return Stack(children: <Widget>[
+            // TODO: Experiment with Curved Animations
+            SlideTransition(
+              position: new Tween<Offset>(
+                begin: const Offset(0.0, 0.0),
+                end: const Offset(0.0, -1.0),
+              ).animate(animation),
+              child: this.widget,
+            ),
+            SlideTransition(
+              position: new Tween<Offset>(
+                begin: const Offset(0.0, 1.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            )
+          ],
+        );
+      };
+
+    router.navigateTo(context, signUpRoute,
+      replace: false,
+      transition: TransitionType.custom,
+      // transitionBuilder: (context, animation, second, child) => SlideTransition(
+      //   position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
+        // child: child));
+      transitionDuration: const Duration(milliseconds: 800),
+      transitionBuilder: transition,
+    );
+  }
+
+  void _onSignInTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _onSignInTapUp(TapUpDetails details) {
+    _controller.reverse();
+    var transition = (BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+        return Stack(children: <Widget>[
+            // TODO: Experiment with Curved Animations
             SlideTransition(
               position: new Tween<Offset>(
                 begin: const Offset(0.0, 0.0),
@@ -292,4 +332,5 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       transitionBuilder: transition,
     );
   }
+
 }
