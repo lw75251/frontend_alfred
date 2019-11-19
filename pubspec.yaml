@@ -23,17 +23,21 @@ dependencies:
   provider: ^3.1.0
   fluro: "^1.5.1"
   intl: ^0.16.0
-  
+  separated_column: ^1.0.1+2
+  separated_row: ^1.0.1+2
+    
   square_in_app_payments: ^1.2.3
   braintree_payment: ^1.2.2  
 
   avatar_glow:
+  flutter_swiper: ^1.1.6  
   flutter_page_indicator:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   font_awesome_flutter:
+  flutter_rating_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/custom/swiper_controls.dart';
+import 'package:flutter_alfred/routes/router.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:square_in_app_payments/in_app_payments.dart';
 import 'package:square_in_app_payments/models.dart';
@@ -140,6 +142,19 @@ class _SignUpScreenState extends State<SignUpScreen>
             child: Text("Pay"),
             onPressed: _pay,
           ),
+
+          MaterialButton(
+            child: Text("I'll do this later...", style: TextStyle(color: Colors.white, fontSize: 20),),
+            color: Colors.blueAccent,
+            onPressed: (){
+              router.navigateTo(context, homeRoute,
+                replace: false,
+                transition: TransitionType.fadeIn,
+                transitionDuration: const Duration(milliseconds: 200),
+              );
+            },
+          ),
+
           Container()   
         ]),
       ),
