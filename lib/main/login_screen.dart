@@ -130,130 +130,119 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           backgroundColor: Color(0xFF8185E2),
           body: Center(
             child: Column(
-              children: <Widget>[
-                AvatarGlow(
-                  endRadius: 90,
-                  duration: Duration(seconds: 2),
-                  glowColor: Colors.white10,
-                  repeat: true,
-                  repeatPauseDuration: Duration(seconds: 2),
-                  startDelay: Duration(seconds: 1),
-                  child: Material(
-                      elevation: 8.0,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[100],
-                        child: FlutterLogo(
-                          size: 50.0,
-                        ),
-                        radius: 50.0,
-                      )),
-                ),
-                DelayedAnimation(
-                  child: Text(
-                    "Hi There",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
-                        color: color),
-                  ),
-                  delay: delayedAmount + 1000,
-                ),
-                DelayedAnimation(
-                  child: Text(
-                    "I'm Reflectly",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
-                        color: color),
-                  ),
-                  delay: delayedAmount + 2000,
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                DelayedAnimation(
-                  child: Text(
-                    "Your New Personal",
-                    style: TextStyle(fontSize: 20.0, color: color),
-                  ),
-                  delay: delayedAmount + 3000,
-                ),
-                DelayedAnimation(
-                  child: Text(
-                    "Journaling  companion",
-                    style: TextStyle(fontSize: 20.0, color: color),
-                  ),
-                  delay: delayedAmount + 3000,
-                ),
-                SizedBox(
-                  height: 100.0,
-                ),
-                DelayedAnimation(
-                child: GestureDetector(
-                  onTapDown: _onTapDown,
-                  onTapUp: _onTapUp,
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: _animatedButtonUI,
-                  ),
-                ),
-                delay: delayedAmount + 4000,
-              ),
-              SizedBox(height: 50.0,),
-                DelayedAnimation(
-                  child: GestureDetector(
-                    onTapDown: _onSignInTapDown,
-                    onTapUp: _onSignInTapUp,
-                    child: Text(
-                      "I Already have An Account".toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: color),
+                children: <Widget>[
+                  Hero(tag: "logo",
+                    child: AvatarGlow(
+                      endRadius: 90,
+                      duration: Duration(seconds: 2),
+                      glowColor: Colors.white10,
+                      repeat: true,
+                      repeatPauseDuration: Duration(seconds: 2),
+                      startDelay: Duration(seconds: 1),
+                      child: Material(
+                          elevation: 8.0,
+                          shape: CircleBorder(),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            child: FlutterLogo(
+                              size: 50.0,
+                            ),
+                            radius: 50.0,
+                          )),
                     ),
                   ),
-                  delay: delayedAmount + 5000,
+                  DelayedAnimation(
+                    child: Text(
+                      "Hi There",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35.0,
+                          color: color),
+                    ),
+                    delay: delayedAmount + 1000,
+                  ),
+                  DelayedAnimation(
+                    child: Text(
+                      "I'm Reflectly",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35.0,
+                          color: color),
+                    ),
+                    delay: delayedAmount + 2000,
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  DelayedAnimation(
+                    child: Text(
+                      "Your New Personal",
+                      style: TextStyle(fontSize: 20.0, color: color),
+                    ),
+                    delay: delayedAmount + 3000,
+                  ),
+                  DelayedAnimation(
+                    child: Text(
+                      "Journaling  companion",
+                      style: TextStyle(fontSize: 20.0, color: color),
+                    ),
+                    delay: delayedAmount + 3000,
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  DelayedAnimation(
+                  child: GestureDetector(
+                    onTapDown: _onTapDown,
+                    onTapUp: _onTapUp,
+                    child: Transform.scale(
+                      scale: _scale,
+                      child: _animatedButtonUI,
+                    ),
+                  ),
+                  delay: delayedAmount + 4000,
                 ),
-              ],
+                SizedBox(height: 50.0,),
+                  DelayedAnimation(
+                    child: GestureDetector(
+                      onTapDown: _onSignInTapDown,
+                      onTapUp: _onSignInTapUp,
+                      child: Text(
+                        "I Already have An Account".toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: color),
+                      ),
+                    ),
+                    delay: delayedAmount + 5000,
+                  ),
+                ],
             ),
           )
-          //  Column(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: <Widget>[
-          //     Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
-          //     SizedBox(
-          //       height: 20.0,
-          //     ),
-          //      Center(
-
-          //   ),
-          //   ],
-
-          // ),
     );
   }
 
   Widget get _animatedButtonUI => Container(
-        height: 60,
-        width: 270,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.black38, blurRadius: 10*_scale, offset: Offset(0, 10))],
-          borderRadius: BorderRadius.circular(100.0),
-          color: Colors.white,
+    height: 60,
+    width: 270,
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(color: Colors.black38, blurRadius: 10*_scale, offset: Offset(0, 10))],
+      borderRadius: BorderRadius.circular(100.0),
+      color: Colors.white,
+    ),
+    child: Center(
+      child: Text(
+        'Hi Reflectly',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF8185E2),
         ),
-        child: Center(
-          child: Text(
-            'Hi Reflectly',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF8185E2),
-            ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 
   void _onTapDown(TapDownDetails details) {
     _controller.forward();
@@ -284,12 +273,12 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       };
 
     router.navigateTo(context, signUpRoute,
-      replace: false,
+      replace: true,
       transition: TransitionType.custom,
       // transitionBuilder: (context, animation, second, child) => SlideTransition(
       //   position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
         // child: child));
-      transitionDuration: const Duration(milliseconds: 800),
+      transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: transition,
     );
   }
@@ -322,8 +311,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         );
       };
 
-    router.navigateTo(context, homeRoute,
-      replace: false,
+    router.navigateTo(context, loginRoute,
+      replace: true,
       transition: TransitionType.custom,
       // transitionBuilder: (context, animation, second, child) => SlideTransition(
       //   position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),

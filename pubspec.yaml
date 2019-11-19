@@ -23,6 +23,8 @@ dependencies:
   provider: ^3.1.0
   fluro: "^1.5.1"
   intl: ^0.16.0
+  
+  square_in_app_payments: ^1.2.3
   braintree_payment: ^1.2.2  
 
   avatar_glow:

@@ -37,7 +37,7 @@ final router = Router();
 
 class Routes {
   static void defineRoutes(Router router) {
-    router.define(loginRoute, handler: loginHandler, transitionType: TransitionType.fadeIn);
+    router.define(loginRoute, handler: loginHandler);
     router.define(homeRoute, handler: homeHandler);
     router.define(signUpRoute, handler: signUpHandler);
     router.define(menuRoute, handler: menuHandler, transitionType: TransitionType.fadeIn);

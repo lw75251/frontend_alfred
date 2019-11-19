@@ -1,51 +1,12 @@
+import 'dart:math';
+
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/custom/swiper_controls.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
+import 'package:square_in_app_payments/in_app_payments.dart';
+import 'package:square_in_app_payments/models.dart';
 
-class RadioGroup extends StatefulWidget {
-  final List<String> titles;
-
-  final ValueChanged<int> onIndexChanged;
-
-  const RadioGroup({Key key, this.titles, this.onIndexChanged})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return new _RadioGroupState();
-  }
-}
-
-class _RadioGroupState extends State<RadioGroup> {
-  int _index = 1;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> list = [];
-    for (int i = 0; i < widget.titles.length; ++i) {
-      list.add(((String title, int index) {
-        return new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new Radio<int>(
-                value: index,
-                groupValue: _index,
-                onChanged: (int index) {
-                  setState(() {
-                    _index = index;
-                    widget.onIndexChanged(_index);
-                  });
-                }),
-            new Text(title)
-          ],
-        );
-      })(widget.titles[i], i));
-    }
-
-    return new Wrap(
-      children: list,
-    );
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key key}) : super(key: key);
@@ -54,103 +15,209 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderStateMixin {
+class _SignUpScreenState extends State<SignUpScreen>
+    with SingleTickerProviderStateMixin {
 
-  int _index = 1;
+  double size = 10.0;
+  double activeSize = 10.0;
+  double space = 15.0;
 
-  double size = 20.0;
-  double activeSize = 30.0;
-
-  PageController _controller;
+  final PageController _pageController = new PageController();
   PageIndicatorLayout layout = PageIndicatorLayout.SLIDE;
   List<PageIndicatorLayout> layouts = PageIndicatorLayout.values;
   bool loop = false;
 
-  @override
-  void initState() {
-    _controller = new PageController();
-    super.initState();
+  final TextEditingController _nameController = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
+
+  Future<void> _pay() async {
+    InAppPayments.setSquareApplicationId('sq0idp-_kKyxYaHI-WWjFt367OuzA');
+    await InAppPayments.startCardEntryFlow(
+      onCardNonceRequestSuccess: _cardNonceRequestSuccess,
+      onCardEntryCancel: _cardEntryCancel,
+    );
   }
+
+  void _cardEntryCancel() {
+    // TODO: If User Cancels Card Entry, what happens?
+  }
+
+  void _cardNonceRequestSuccess(CardDetails result) async {
+    print(result.nonce);
+
+    try {
+      InAppPayments.completeCardEntry(
+        onCardEntryComplete: _cardEntryComplete
+      );
+    } catch (ex) {
+      InAppPayments.showCardNonceProcessingError(ex.toString());
+    }
+
+  }
+
+  void _cardEntryComplete() {
+    // TODO: On Sucess
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Widget get _nameSlide => Container(
+      color: Colors.blueGrey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 22.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+          Text("Nice to meet you! What do your friends call you?", 
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+          )),
+          Container(child: TextField(
+            controller: _nameController,
+            style: TextStyle(color: Colors.white, fontSize: 30),
+            decoration: InputDecoration(
+              hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+              border: InputBorder.none,
+              hintText: 'They call me...',
+              helperText: "YOUR NICKNAME",
+              helperStyle: TextStyle(color: Colors.white, fontSize: 15),
+              counterText: "0 / 32"
+            )),
+          ),  
+          Container()
+        ]),
+      ),
+    );
+
+  Widget get _accountSlide => Container(
+      color: Colors.blueGrey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100.0, horizontal: 22.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+          Text("Hi ${_nameController.text} - make an account and start ordering!", 
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+          )),
+          TextField( controller: _emailController,
+            style: TextStyle(color: Colors.white, fontSize: 30),
+            decoration: InputDecoration(
+              hintText: 'Email',
+              hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+              border: InputBorder.none,
+          )),
+          TextField( controller: _passwordController,
+            obscureText: true,
+            style: TextStyle(color: Colors.white, fontSize: 30),
+            decoration: InputDecoration(
+              hintText: "Password",
+              hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+              border: InputBorder.none,
+          )),
+          Container()   
+        ]),
+      ),
+    );
+
+  Widget get _cardSlide => Container(
+      color: Colors.blueGrey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100.0, horizontal: 22.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+          Text("Last thing - save a payment method!", 
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+          )),
+          MaterialButton(
+            child: Text("Pay"),
+            onPressed: _pay,
+          ),
+          Container()   
+        ]),
+      ),
+    );
 
   @override
   Widget build(BuildContext context) {
     var children = <Widget>[
-      new Container(
-        color: Colors.red,
-      ),
-      new Container(
-        color: Colors.green,
-      ),
-      new Container(
-        color: Colors.blueAccent,
-      ),
-      new Container(
-        color: Colors.grey,
-      )
+      _nameSlide,
+      _accountSlide,
+      _cardSlide
     ];
 
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Test"),
-        ),
-        body: new Column(
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Checkbox(
-                    value: loop,
-                    onChanged: (bool value) {
-                      setState(() {
-                        // if (value) {
-                        //   _controller = new TransformerPageController(
-                        //       itemCount: 4, loop: true);
-                        // } else {
-                          _controller = new PageController(
-                            initialPage: 0,
-                          );
-                        // }
-                        loop = value;
-                      });
-                    }),
-                new Text("loop"),
-              ],
-            ),
-            new RadioGroup(
-              titles: layouts.map((s) {
-                var str = s.toString();
-                return str.substring(str.indexOf(".") + 1);
-              }).toList(),
-              onIndexChanged: (int index) {
-                setState(() {
-                  _index = index;
-                  layout = layouts[index];
-                });
-              },
-            ),
-            new Expanded(
-                child: new Stack(
-              children: <Widget>[
-                PageView(
-                  controller: _controller,
-                  children: children,
-                ),
-                new Align(
-                  alignment: Alignment.bottomCenter,
-                  child: new Padding(
-                    padding: new EdgeInsets.only(bottom: 20.0),
-                    child: new PageIndicator(
-                      layout: layout,
-                      size: size,
-                      activeSize: activeSize,
-                      controller: _controller,
-                      space: 5.0,
-                      count: 4,
+    return Material(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+              child: Stack(
+            children: <Widget>[
+              PageView(
+                scrollDirection: Axis.vertical,
+                controller: _pageController,
+                children: children,
+              ),
+
+              // Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: <Widget>[
+                  
+              // ]),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Hero(
+                      tag: "logo",
+                      child: AvatarGlow(
+                        endRadius: 50,
+                        duration: Duration(seconds: 2),
+                        glowColor: Colors.white10,
+                        repeat: true,
+                        repeatPauseDuration: Duration(seconds: 2),
+                        startDelay: Duration(seconds: 1),
+                        child: Material(
+                            elevation: 8.0,
+                            shape: CircleBorder(),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey[100],
+                              child: FlutterLogo(
+                                size: 35.0,
+                              ),
+                              radius: 35.0,
+                            )),
+                      ),
                     ),
+                    Transform.rotate(
+                        angle: -3 * pi / 2,
+                        child: PageIndicator(
+                          layout: layout,
+                          size: size,
+                          activeSize: activeSize,
+                          controller: _pageController,
+                          space: space,
+                          count: children.length,
+                        ),
+                    ),
+                ]),
+              ),
+              Align(alignment: Alignment.bottomRight,
+                  child: SwiperControls(
+                    slideController: _pageController,
+                    itemCount: children.length,
+                    size: 35,
                   ),
-                )
-              ],
-            ))
-          ],
-        ));
+              )
+            ],
+          ))
+        ],
+      ),
+    );
   }
 }
