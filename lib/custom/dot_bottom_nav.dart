@@ -37,7 +37,7 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
 
   @override
   Widget build(BuildContext context) => Container (
-    padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+    padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
     child: Material(
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
@@ -47,14 +47,14 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
             key: _keyBottomBar,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(bottom: 12),
+                padding: EdgeInsets.only(bottom: 5),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: _createNavigationIconButtonList(widget.items.asMap())
                 ),
               ),
               AnimatedPositioned(
-                  child: CircleAvatar(radius: 2.5, backgroundColor: _activeColor),
+                  child: CircleAvatar(radius: 2.0, backgroundColor: _activeColor),
                   duration: Duration(milliseconds: 400),
                   curve: Curves.fastOutSlowIn,
                   left: _positionLeftIndicatorDot,
@@ -141,7 +141,7 @@ class _NavigationIconButtonState extends State<_NavigationIconButton> with Singl
           child: AnimatedOpacity(
               opacity: _opacityIcon,
               duration: Duration(milliseconds: 200),
-              child: Icon(widget._icon, size: 25, color: widget._colorIcon)
+              child: Icon(widget._icon, size: 22, color: widget._colorIcon)
           )
       )
   );

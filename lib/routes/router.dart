@@ -27,9 +27,10 @@ import 'package:flutter_alfred/routes/route_handlers.dart';
 
 
 
-const String homeRoute = "/";
 const String loginRoute = "/login";
 const String signUpRoute = "/signup";
+const String homeRoute = "/";
+const String qrRoute = "/scan";
 const String menuRoute = "/menu";
 const String checkoutRoute = "/checkout";
 
@@ -38,8 +39,9 @@ final router = Router();
 class Routes {
   static void defineRoutes(Router router) {
     router.define(loginRoute, handler: loginHandler);
-    router.define(homeRoute, handler: homeHandler);
     router.define(signUpRoute, handler: signUpHandler);
+    router.define(homeRoute, handler: homeHandler);
+    router.define(qrRoute, handler: qrHandler);
     router.define(menuRoute, handler: menuHandler, transitionType: TransitionType.fadeIn);
     router.define(checkoutRoute, handler: checkoutHandler, transitionType: TransitionType.fadeIn);
   }
