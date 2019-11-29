@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+import 'package:flutter_qr_reader/qrcode_reader_view.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class QRScreen extends StatefulWidget {
   QRScreen({Key key}) : super(key: key);
@@ -7,11 +12,67 @@ class QRScreen extends StatefulWidget {
   _QRScreenState createState() => _QRScreenState();
 }
 
-class _QRScreenState extends State<QRScreen> {
+class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin {
+  QrReaderViewController _controller;
+  bool isOk = false;
+  String data;
+
+  GlobalKey<QrcodeReaderViewState> _key = GlobalKey();
+
+  void getPermissions() async {
+  Map<PermissionGroup, PermissionStatus> permissions =
+    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    print(permissions);
+    if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+      showDialog(context: context,
+        builder: (context) {
+          return Dialog(
+            child: Text("ok"),
+          );
+        },
+      );
+      setState(() {
+        isOk = true;
+      });
+    }    
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPermissions();
+  }
+
+  Future onScan(String data) async {
+    await showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("扫码结果"),
+          content: Text(data),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text("确认"),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        );
+      },
+    );
+    _key.currentState.startScan();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
-      body: Container(),
+    return new Scaffold(
+      body: QrcodeReaderView(
+        key: _key,
+        onScan: onScan,
+        headerWidget: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+      ),
     );
   }
 }

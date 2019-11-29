@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   ),
                   DelayedAnimation(
                     child: Text(
-                      "I'm Reflectly",
+                      "I'm Alfred",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 35.0,
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     ),
     child: Center(
       child: Text(
-        'Hi Reflectly',
+        'Hi Alfred',
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,

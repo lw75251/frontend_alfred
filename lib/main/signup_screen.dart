@@ -139,12 +139,15 @@ class _SignUpScreenState extends State<SignUpScreen>
             fontSize: 30.0,
           )),
           MaterialButton(
-            child: Text("Pay"),
+            child: Text("Link a payment method", 
+              style: TextStyle(color: Colors.white, fontSize: 18),),
+            color: Colors.blueAccent,
             onPressed: _pay,
           ),
 
           MaterialButton(
-            child: Text("I'll do this later...", style: TextStyle(color: Colors.white, fontSize: 20),),
+            child: Text("I'll do this later...", 
+              style: TextStyle(color: Colors.white, fontSize: 14),),
             color: Colors.blueAccent,
             onPressed: (){
               router.navigateTo(context, homeRoute,

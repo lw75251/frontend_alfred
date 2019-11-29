@@ -23,9 +23,11 @@ dependencies:
   provider: ^3.1.0
   fluro: "^1.5.1"
   intl: ^0.16.0
-  separated_column: ^1.0.1+2
   separated_row: ^1.0.1+2
-    
+  
+  permission_handler: ^4.0.0
+  flutter_qr_reader: ^1.0.3
+  
   square_in_app_payments: ^1.2.3
   braintree_payment: ^1.2.2  
 

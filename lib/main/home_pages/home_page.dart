@@ -48,22 +48,22 @@ class HomePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          child: Row(children: <Widget>[
-            Text("Discovery", style: TextStyle(color: Colors.black, fontSize: 20)),
-          ]),
-          //TODO: TapDown Make Text become Lighter
-          onTapDown: null,
-          //TODO: Change Location Page, then update Text
-          onTapUp: null,
-        ),
-        actions: <Widget>[
-          IconButton(icon: Icon(FontAwesomeIcons.qrcode), iconSize: 22, onPressed: qrOnTap,)
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   automaticallyImplyLeading: false,
+      //   title: GestureDetector(
+      //     child: Row(children: <Widget>[
+      //       Text("Discovery", style: TextStyle(color: Colors.black, fontSize: 20)),
+      //     ]),
+      //     //TODO: TapDown Make Text become Lighter
+      //     onTapDown: null,
+      //     //TODO: Change Location Page, then update Text
+      //     onTapUp: null,
+      //   ),
+      //   actions: <Widget>[
+      //     IconButton(icon: Icon(FontAwesomeIcons.qrcode), iconSize: 22, onPressed: qrOnTap,)
+      //   ],
+      // ),
       body: Column(children: <Widget>[
         DiscoveryBlock()
       ]),
