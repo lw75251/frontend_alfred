@@ -167,13 +167,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
-  flutter_qr_reader:
-    dependency: "direct main"
-    description:
-      name: flutter_qr_reader
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   flutter_rating_bar:
     dependency: "direct main"
     description:
@@ -222,12 +215,12 @@ packages:
     source: hosted
     version: "0.14.0+3"
   image_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.2"
+    version: "0.6.2+1"
   intl:
     dependency: "direct main"
     description:

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_qr_reader/qrcode_reader_view.dart';
+import 'package:flutter_alfred/qr_reader/flutter_qr_reader.dart';
+import 'package:flutter_alfred/qr_reader/qr_reader_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
@@ -24,13 +24,13 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
     await PermissionHandler().requestPermissions([PermissionGroup.camera]);
     print(permissions);
     if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-      showDialog(context: context,
-        builder: (context) {
-          return Dialog(
-            child: Text("ok"),
-          );
-        },
-      );
+      // showDialog(context: context,
+      //   builder: (context) {
+      //     return Dialog(
+      //       child: Text("ok"),
+      //     );
+      //   },
+      // );
       setState(() {
         isOk = true;
       });

@@ -1,9 +1,11 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/routes/router.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class MainPage extends StatelessWidget {
 
-  List<Widget> carousels = [
+  final List<Widget> carousels = [
 
     CarouselBlock(
       title: "Discover",
@@ -70,7 +72,7 @@ class MainPage extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) => carousels[index],
       separatorBuilder: (BuildContext context, int index) =>
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 20.0),
           child: Divider(
             color: Colors.black,
           ),
@@ -147,7 +149,7 @@ class NearbyBlock extends StatelessWidget {
      // 1 Per Block
     final _screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: _screenHeight/4,
+      height: _screenHeight/6,
       child: Row(children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,6 +197,7 @@ class CarouselBlock extends StatefulWidget {
 }
 
 class CarouselStateBlock extends State<CarouselBlock> {
+  
   @override
   Widget build(BuildContext context) {
     final double _padding = 10.0;
@@ -241,52 +244,87 @@ class CarouselStateBlock extends State<CarouselBlock> {
       );
     }
 
+    void navigateToMenu(TapUpDetails details) {
+      var transition = (BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+          return Stack(children: <Widget>[
+              SlideTransition(
+                position: new Tween<Offset>(
+                  begin: const Offset(0.0, 0.0),
+                  end: const Offset(-1.0, 0.0),
+                ).animate(animation),
+                child: this.widget,
+              ),
+              SlideTransition(
+                position: new Tween<Offset>(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              )
+            ],
+          );
+        };
+
+      router.navigateTo(context, menuRoute,
+        transition: TransitionType.custom,
+        transitionDuration: const Duration(milliseconds: 200),
+        transitionBuilder: transition,
+      );
+    }
+
     Widget _buildCard(String imageUrl, String cardTitle ) { 
       return widget.itemsPerBlock == 1 ? 
       
       // 1 Per Block
-      SizedBox(
-        height: _screenHeight/4,
+      GestureDetector(
+        child: SizedBox(
+        height: _screenHeight/6,
         child: Row(children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.network(imageUrl, fit: BoxFit.fill),
-              Text(cardTitle, style: cardTitleStyle),
-          ]),
-        ]) 
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image.network(imageUrl, fit: BoxFit.fill),
+                Text(cardTitle, style: cardTitleStyle),
+            ]),
+          ]) 
+        ),
+        onTapUp: navigateToMenu,
       )
 
       :
 
       // 2 Per Block
-      SizedBox(
-        height: _screenHeight/4,
-        child: Row(children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.network(imageUrl, fit: BoxFit.fill),
-              Text(cardTitle, style: cardTitleStyle),
-          ]),
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 5),),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.network(imageUrl, fit: BoxFit.fill),
-              Text(cardTitle, style: cardTitleStyle),
+      GestureDetector(
+        child: SizedBox(
+          height: _screenHeight/4,
+          child: Row(children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image.network(imageUrl, fit: BoxFit.fill),
+                Text(cardTitle, style: cardTitleStyle),
+            ]),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 5),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image.network(imageUrl, fit: BoxFit.fill),
+                Text(cardTitle, style: cardTitleStyle),
+            ]) 
           ]) 
-        ]) 
+        ),
+        onTapUp: navigateToMenu,
       );
     }
 
     return SizedBox(
-      height: _screenHeight/1.8,
+      height: _screenHeight/1.9,
       child: Column(
         children: <Widget>[
           _buildHeader(widget.title, widget.subtitle),
           SizedBox(
-            height: _screenHeight/2,
+            height: _screenHeight/2.27,
             child: Swiper(
               autoplay: widget.autoPlay,
               duration: widget.duration,

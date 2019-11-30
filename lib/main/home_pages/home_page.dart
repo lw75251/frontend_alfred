@@ -1,11 +1,6 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:separated_row/separated_row.dart';
-
-import '../../routes/router.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -14,56 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void qrOnTap() {
-      var transition = (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation, Widget child) {
-          return Stack(children: <Widget>[
-              // TODO: Experiment with Curved Animations
-              SlideTransition(
-                position: new Tween<Offset>(
-                  begin: const Offset(0.0, 0.0),
-                  end: const Offset(-1.0, 0.0),
-                ).animate(animation),
-                child: this,
-              ),
-              SlideTransition(
-                position: new Tween<Offset>(
-                  begin: const Offset(1.0, 0.0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              )
-            ],
-          );
-        };
-
-      router.navigateTo(context, qrRoute,
-        transition: TransitionType.custom,
-        // transitionBuilder: (context, animation, second, child) => SlideTransition(
-        //   position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
-          // child: child));
-        transitionDuration: const Duration(milliseconds: 300),
-        transitionBuilder: transition,
-      );
-    }
-
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   automaticallyImplyLeading: false,
-      //   title: GestureDetector(
-      //     child: Row(children: <Widget>[
-      //       Text("Discovery", style: TextStyle(color: Colors.black, fontSize: 20)),
-      //     ]),
-      //     //TODO: TapDown Make Text become Lighter
-      //     onTapDown: null,
-      //     //TODO: Change Location Page, then update Text
-      //     onTapUp: null,
-      //   ),
-      //   actions: <Widget>[
-      //     IconButton(icon: Icon(FontAwesomeIcons.qrcode), iconSize: 22, onPressed: qrOnTap,)
-      //   ],
-      // ),
       body: Column(children: <Widget>[
         DiscoveryBlock()
       ]),

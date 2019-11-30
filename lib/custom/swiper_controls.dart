@@ -49,7 +49,7 @@ class _SwiperControlsState extends State<SwiperControls> {
           var transition = (BuildContext context, Animation<double> animation,
             Animation<double> secondaryAnimation, Widget child) {
               return Stack(children: <Widget>[
-                  // TODO: Experiment with Curved Animations
+
                   SlideTransition(
                     position: new Tween<Offset>(
                       begin: const Offset(0.0, 0.0),
