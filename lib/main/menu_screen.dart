@@ -1,6 +1,77 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/src/rendering/sliver_persistent_header.dart';
 import 'package:flutter_alfred/custom/menu_item.dart';
+import 'package:flutter_alfred/main/menu_page_content.dart';
 import 'package:flutter_alfred/routes/router.dart';
+
+class MenuPageHeader implements SliverPersistentHeaderDelegate {
+  final double minExtent;
+  final double maxExtent;
+  
+  MenuPageHeader({
+    this.minExtent,
+    @required this.maxExtent,
+  });
+
+  double textOpacity( double shrinkOffset ) {
+    return 1.0 - 1.5*max(0.0, shrinkOffset) / maxExtent;
+  }
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Image.network("http://via.placeholder.com/325x250", fit: BoxFit.cover,),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.transparent, Colors.black54],
+              stops: [0.5, 1.0],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              tileMode: TileMode.repeated
+            )
+          ),
+        ),
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 80, 
+                width: 80,
+                decoration: BoxDecoration(shape: BoxShape.circle),
+                child: Image.network("http://via.placeholder.com/80x80", fit: BoxFit.cover,),
+              ),
+              Text("Buffalo Wings", 
+                style: TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.white.withOpacity(textOpacity(shrinkOffset)) 
+                ),
+              ),
+              Text("101 E Front St (8.3 mi)",
+                style: TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.white.withOpacity(textOpacity(shrinkOffset))
+                ) 
+              ),
+          ]),
+        )
+      ],
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  FloatingHeaderSnapConfiguration get snapConfiguration => null;
+}
 
 class MenuScreen extends StatelessWidget {
   static String tag = 'home-page';
@@ -16,53 +87,23 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alucard = Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: CircleAvatar(
-          radius: 72.0,
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage('assets/images/alucard.jpg'),
-        ),
-      ),
-    );
-
-    final appBar = AppBar(
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () { Navigator.of(context).pop(true); },
-      ),
-      title: Text("Food"),
-      // actions: <Widget>[
-      //   Padding(
-      //     padding: const EdgeInsets.all(8.0),
-      //     child: Icon(Icons.check),
-      //   )
-      // ],
-    );
 
     return Scaffold(
-      appBar: appBar,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.shopping_basket),
-        onPressed: (){
-          router.navigateTo(context, checkoutRoute, 
-            transitionDuration: const Duration(milliseconds: 200));
-        },
-      ),
-      body: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            return items[index];
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverPersistentHeader(
+            pinned: true,
+            floating: false,
+            delegate: MenuPageHeader(
+              minExtent: 125.0,
+              maxExtent: 500.0
+            ),
+          ),
+
+          // TODO: Page Content
+          MenuPageContent()
+        ],
       )
-      // body: ListView.builder(
-      //   itemCount: items.length,
-      //   itemBuilder: (context, index) => items[index],
-      // ),
     );
   }
 }
