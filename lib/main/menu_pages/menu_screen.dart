@@ -1,10 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/rendering/sliver_persistent_header.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_alfred/custom/menu_item.dart';
-import 'package:flutter_alfred/main/menu_page_content.dart';
-import 'package:flutter_alfred/routes/router.dart';
+import 'package:flutter_alfred/main/menu_pages/menu_page_content.dart';
 
 class MenuPageHeader implements SliverPersistentHeaderDelegate {
   final double minExtent;
@@ -18,6 +17,10 @@ class MenuPageHeader implements SliverPersistentHeaderDelegate {
   double textOpacity( double shrinkOffset ) {
     return 1.0 - 1.5*max(0.0, shrinkOffset) / maxExtent;
   }
+
+  double widgetSize( double shrinkOffset ) {
+    return 1.0 - 0.3*max(0.0, shrinkOffset) / maxExtent;
+  }  
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -39,26 +42,39 @@ class MenuPageHeader implements SliverPersistentHeaderDelegate {
         Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: 80, 
-                width: 80,
+                height: 120 * widgetSize(shrinkOffset), 
+                width: 120 * widgetSize(shrinkOffset),
                 decoration: BoxDecoration(shape: BoxShape.circle),
-                child: Image.network("http://via.placeholder.com/80x80", fit: BoxFit.cover,),
-              ),
+                child: Image.network("http://via.placeholder.com/120x120", fit: BoxFit.cover,),
+              )
+          ]),
+        ),
+        Align(
+          alignment: Alignment(0,0.5),
+          child: SizedBox(
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
               Text("Buffalo Wings", 
-                style: TextStyle(
-                  fontSize: 32.0,
-                  color: Colors.white.withOpacity(textOpacity(shrinkOffset)) 
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    color: Colors.white.withOpacity(textOpacity(shrinkOffset)),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
               Text("101 E Front St (8.3 mi)",
                 style: TextStyle(
-                  fontSize: 32.0,
+                  fontSize: 22.0,
                   color: Colors.white.withOpacity(textOpacity(shrinkOffset))
-                ) 
-              ),
-          ]),
+                ),
+                textAlign: TextAlign.center,
+              ),              
+            ]),
+          )
         )
       ],
     );
@@ -83,7 +99,7 @@ class MenuScreen extends StatelessWidget {
     MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
     MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
     MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 10),
-    ];
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +111,7 @@ class MenuScreen extends StatelessWidget {
             pinned: true,
             floating: false,
             delegate: MenuPageHeader(
-              minExtent: 125.0,
+              minExtent: 100.0,
               maxExtent: 500.0
             ),
           ),

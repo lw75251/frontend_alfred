@@ -1,9 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/custom/dot_bottom_nav.dart';
-import 'package:flutter_alfred/main/home_pages/home_page.dart';
-import 'package:flutter_alfred/main/home_pages/main_page.dart';
-import 'package:flutter_alfred/main/home_pages/profile_page.dart';
+import 'package:flutter_alfred/main/deprecated/home_pages/main_page.dart';
+
 import 'package:flutter_alfred/routes/router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,10 +17,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List pages = [
-    HomePage(key:PageStorageKey('Home')),
-    ProfilePage(),
-    MainPage(),
-    ProfilePage()
+    // HomePage(key:PageStorageKey('Home')),
+    // ProfilePage(),
+    // MainPage(),
+    // ProfilePage()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();

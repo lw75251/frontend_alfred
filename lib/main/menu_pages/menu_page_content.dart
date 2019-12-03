@@ -86,7 +86,7 @@ class TextAndButton extends StatelessWidget {
             style: Theme.of(context).textTheme.headline,
           ),
           RaisedButton(
-            color: Theme.of(context).primaryColor,
+            color: Colors.transparent,
             child: Text(buttonText,
                 style: Theme.of(context)
                     .textTheme
