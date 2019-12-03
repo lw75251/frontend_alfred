@@ -34,10 +34,15 @@ const String qrRoute = "/scan";
 const String menuRoute = "/menu";
 const String checkoutRoute = "/checkout";
 
+const String testRoute = "/test";
+
 final router = Router();
 
 class Routes {
   static void defineRoutes(Router router) {
+
+    router.define(testRoute, handler: testHandler);
+
     router.define(loginRoute, handler: loginHandler);
     router.define(signUpRoute, handler: signUpHandler);
     router.define(homeRoute, handler: homeHandler);

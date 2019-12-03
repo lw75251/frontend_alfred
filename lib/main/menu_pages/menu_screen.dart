@@ -19,7 +19,7 @@ class MenuPageHeader implements SliverPersistentHeaderDelegate {
   }
 
   double widgetSize( double shrinkOffset ) {
-    return 1.0 - 0.3*max(0.0, shrinkOffset) / maxExtent;
+    return 1.0 - 0.1*max(0.0, shrinkOffset) / maxExtent;
   }  
 
   @override
@@ -40,20 +40,15 @@ class MenuPageHeader implements SliverPersistentHeaderDelegate {
           ),
         ),
         Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                height: 120 * widgetSize(shrinkOffset), 
-                width: 120 * widgetSize(shrinkOffset),
-                decoration: BoxDecoration(shape: BoxShape.circle),
-                child: Image.network("http://via.placeholder.com/120x120", fit: BoxFit.cover,),
-              )
-          ]),
+          child: Container(
+            height: 80 * widgetSize(shrinkOffset), 
+            width: 80 * widgetSize(shrinkOffset),
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Image.network("http://via.placeholder.com/80x80", fit: BoxFit.cover,),
+          )
         ),
         Align(
-          alignment: Alignment(0,0.5),
+          alignment: Alignment(0,0.7),
           child: SizedBox(
             height: 100,
             child: Column(
@@ -111,8 +106,8 @@ class MenuScreen extends StatelessWidget {
             pinned: true,
             floating: false,
             delegate: MenuPageHeader(
-              minExtent: 100.0,
-              maxExtent: 500.0
+              minExtent: 20.0,
+              maxExtent: 400.0
             ),
           ),
 

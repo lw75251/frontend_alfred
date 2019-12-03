@@ -18,9 +18,6 @@ class ArrowPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..strokeWidth = 2.0;
 
-    double startX = 0;
-    double startY = 0;
-
     /// Draw a single arrow.
     path = Path();
     path.moveTo(size.width*.9, size.height*0.95);
