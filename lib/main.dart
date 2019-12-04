@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightBlue,
         fontFamily: 'Nunito',
       ),
-      initialRoute: loginRoute,
+      initialRoute: testRoute,
       onGenerateRoute: router.generator,
     );
   }

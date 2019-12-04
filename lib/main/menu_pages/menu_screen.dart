@@ -110,7 +110,7 @@ class MenuScreen extends StatelessWidget {
               maxExtent: 400.0
             ),
           ),
-
+        
           // TODO: Page Content
           MenuPageContent()
         ],

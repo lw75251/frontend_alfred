@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alfred/main/bag_screen.dart';
 import 'package:flutter_alfred/main/home_pages/landing_page.dart';
 import 'package:flutter_alfred/main/login_screen.dart';
+import 'package:flutter_alfred/main/menu_pages/example.dart';
 import 'package:flutter_alfred/main/menu_pages/me&u_page.dart';
 import 'package:flutter_alfred/main/menu_pages/menu_screen.dart';
 import 'package:flutter_alfred/main/qr_screen.dart';

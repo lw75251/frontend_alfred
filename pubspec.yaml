@@ -37,12 +37,13 @@ dependencies:
   flutter_page_indicator:
   image_picker: ^0.6.2+1
   flutter_qr_reader: ^1.0.3
+  flutter_rating_bar: ^3.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   font_awesome_flutter:
-  flutter_rating_bar: ^3.0.0
+  material_design_icons_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,16 @@ flutter:
     - assets/images/logo.png
     - assets/images/alucard.jpg
     - assets/images/placeholder.jpeg
+    
+    - assets/images/burger.jpg
+    - assets/images/cheesechilly.jpg
+    - assets/images/noodles.jpg
+    - assets/images/pizza.jpg
+    - assets/images/hawkers.jpg
+    - assets/images/bluehill.jpg
+    - assets/images/pizzahut.jpg
+    - assets/images/flipping.jpg
+    - assets/data.json
   fonts:
       - family: Nunito
         fonts:
