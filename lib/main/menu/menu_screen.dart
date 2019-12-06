@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_alfred/custom/menu_item.dart';
-import 'package:flutter_alfred/main/menu_pages/menu_page_content.dart';
+import 'package:flutter_alfred/main/menu/menu_page_content.dart';
+
 
 class MenuPageHeader implements SliverPersistentHeaderDelegate {
   final double minExtent;
