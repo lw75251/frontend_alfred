@@ -5,7 +5,6 @@ import 'package:flutter_alfred/main/home/landing_page.dart';
 import 'package:flutter_alfred/main/login/login_screen.dart';
 import 'package:flutter_alfred/main/login/signup_screen.dart';
 import 'package:flutter_alfred/main/menu/me&u_page.dart';
-import 'package:flutter_alfred/main/menu/menu_screen.dart';
 import 'package:flutter_alfred/qr_reader/qr_screen.dart';
 
 
@@ -38,7 +37,7 @@ Handler qrHandler = Handler(
 
 Handler menuHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return MenuScreen();
+    return MeAndUScreen();
   });
 
 Handler checkoutHandler = Handler(

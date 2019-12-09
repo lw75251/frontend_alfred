@@ -1,85 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/custom/menu_item.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CheckoutScreen extends StatefulWidget {
-  CheckoutScreen({Key key}) : super(key: key);
-
-  @override
-  _CheckoutScreenState createState() => _CheckoutScreenState();
-}
-
-class _CheckoutScreenState extends State<CheckoutScreen> {
-
-  final List<MenuItem> items = [
-    MenuItem("Satay Chicken Skewers", "assets/images/placeholder.jpeg", 20, 
-      description: "Two pieces of finely crafted artisan chicken come with this deliciously long wooden stick",),
-    MenuItem("Satay Chicken Skewers Really Long", "assets/images/placeholder.jpeg", 10),
-    ];
-
-
-  final List<String> ordered = [
-    "Satay Chicken Skewers",
-    "Steak",
-    "Burrito"
-  ];
-
-      // Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   children: <Widget>[
-      //     Text(ordered[0]),
-      //     Text("\$4.75")
-      //   ],
-      // ) 
-
-  Widget get _orderBlock => Container(
-    color: Colors.white,
-    child: ListView.separated(
-      shrinkWrap: true,
-      itemCount: ordered.length,
-      itemBuilder: (ctx, int) {
-        return Container(
-          color: Colors.white,
-          
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(ordered[int]),
-              Text("\$4.75")
-            ],
-          ),
-        );
-      },
-      separatorBuilder: (ctx, int) => const Divider()
-    )
-  );
+class CheckoutScreen extends StatelessWidget {
 
 
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () { Navigator.of(context).pop(true); },
-      ),
-      title: Text("Cart"),
-    );
 
+    Widget _orderItem() {
+      return Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
+                child: Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey)
+                  ),
+                  child: Center(child: Text("1")),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child:Text("Drunken Pig Sandwich", 
+                  style: TextStyle(color: Colors.white)
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child: Text("\$13.00",
+                  style: TextStyle(color: Colors.white)
+                )
+              )
+          ]),
+        ),
+      );
+    }
+    
+    Widget _orderSummary(){
+      return Container(
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: 4,
+          itemBuilder: (ctx, int) => _orderItem(),
+          separatorBuilder: (ctx, int) => Divider(color: Colors.white,),
+        ),
+      );
+    } 
+    
     return Scaffold(
-      appBar: appBar,
-      // body: ListView.separated(
-      //     padding: const EdgeInsets.all(8),
-      //     itemCount: items.length,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       return items[index];
-      //     },
-      //     separatorBuilder: (BuildContext context, int index) => const Divider(),
-      // ),
-      body: _orderBlock,
-      bottomNavigationBar: BottomAppBar(
-        child: MaterialButton(child: Text("Pay"), onPressed: (){})
-
-      ),
+      appBar: AppBar(
+      )
+      
     );
   }
 }

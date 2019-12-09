@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/custom/scrollable_tab_bar.dart';
-import 'package:flutter_alfred/main/menu/custom/cart_fab.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:flutter_alfred/main/menu/custom/sliding_panel.dart';
 import 'package:flutter_alfred/routes/router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:simple_animations/simple_animations/multi_track_tween.dart';
+
+
 
 
 enum TabsDemoStyle { iconsAndText, iconsOnly, textOnly }
@@ -29,16 +32,6 @@ class _Page {
   });
 }
 
-class MaterialDemoDocumentationButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-        icon: const Icon(Icons.library_books),
-        tooltip: 'API documentation',
-        onPressed: () {});
-  }
-}
-
 class MeAndUScreen extends StatefulWidget {
 
   @override
@@ -47,111 +40,33 @@ class MeAndUScreen extends StatefulWidget {
 
 class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderStateMixin {
   
-  TabController _controller;
+  TabController _tabController;
+  PanelController _panelController;
+  bool _isClosed = true;
+
+  bool _start = false;
+
   TabsDemoStyle _demoStyle = TabsDemoStyle.textOnly;
   bool _customIndicator = true;
   
   final List<_Page> _allPages = <_Page>[
-    _Page(
-      icon: Icons.grade, 
-      text: 'Entree & Grills',
-      images:[
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250"
-      ],
-      descriptions: [
-        "Yummy",
-        "Great",
-        "Beautiful",
-        "F",
-      ],
-      prices: [
-        12.10,
-        13.75,
-        15.2,
-        19.18
-      ]
-    ),
-    _Page(
-      icon: Icons.playlist_add, 
-      text: 'Spicy Salads',
-      images:[
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250"
-      ],
-      descriptions: [
-        "Yummy",
-        "Great",
-        "Beautiful",
-        "F",
-      ],
-      prices: [
-        12.10,
-        13.75,
-        15.2,
-        19.18
-      ]      
-    ),
-    _Page(
-      icon: Icons.check_circle, 
-      text: 'A La Carte',
-      images:[
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250"
-      ],
-      descriptions: [
-        "Yummy",
-        "Great",
-        "Beautiful",
-        "F",
-      ],
-      prices: [
-        12.10,
-        13.75,
-        15.2,
-        19.18
-      ]      
-    ),
-    _Page(
-      icon: Icons.question_answer, 
-      text: 'Noodles Soups',
-      images:[
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250",
-        "http://via.placeholder.com/325x250"
-      ],
-      descriptions: [
-        "Yummy",
-        "Great",
-        "Beautiful",
-        "F",
-      ],
-      prices: [
-        12.10,
-        13.75,
-        15.2,
-        19.18
-      ]      
-    ),
+    _Page( icon: Icons.grade, text: 'Entree & Grills',),
+    _Page( icon: Icons.playlist_add, text: 'Spicy Salads',),
+    _Page( icon: Icons.check_circle, text: 'A La Carte',  ),
+    _Page( icon: Icons.question_answer, text: 'Noodles Soups',   ),
   ];
 
   @override
   void initState() {
-     _controller = TabController(vsync: this, length: _allPages.length);
+     _tabController = TabController(vsync: this, length: _allPages.length);
+     _panelController = PanelController();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _tabController.dispose();
   }
 
   Decoration getIndicator() {
@@ -285,45 +200,71 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
       transitionDuration: const Duration(milliseconds: 200));
   }
 
-Widget _floatingCollapsed(){
-  return Container(
-    child: GestureDetector(
-      onTapUp: navigateToItem,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0), 
-            topRight: Radius.circular(20.0)
-          )
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: 50.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Flexible(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Icon(
-                      FontAwesomeIcons.shoppingCart,
-                      size: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text( "View Cart",
-                    style: TextStyle(color: Colors.white),
-                  ),  
-              ]),
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 3,
-              child: Row(
+  Widget _header() {
+
+    final duration = const Duration(milliseconds: 800);
+    final tween = MultiTrackTween([
+      Track("height").add( duration, Tween(begin: 50.0, end: 500.0)),
+      Track("ani").add( duration, Tween(begin: 0.0, end: 1.0))
+    ]);
+
+    void _startAnimation() {
+      setState(() {
+        _start = true;
+      });
+    }
+
+    void _listenToAnimationFinished(status) {
+      if (status == AnimationStatus.completed) {
+        // router.navigateTo(context, checkoutRoute, 
+        //   transitionDuration: const Duration(milliseconds: 200));
+      }
+   }
+
+    return GestureDetector(
+      onTap: _startAnimation,
+      child: ControlledAnimation(
+        playback: !_start ? Playback.PAUSE : Playback.PLAY_FORWARD,
+        tween: tween,
+        duration: tween.duration,
+        animationControllerStatusListener: _listenToAnimationFinished,
+        builder: (ctx, ani) => Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0 * (1-ani["ani"])), 
+              topRight: Radius.circular(20.0 * (1-ani["ani"]))
+            )
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: ani["height"],
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5.0,),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          FontAwesomeIcons.shoppingCart,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text( "View Cart",
+                        style: TextStyle(color: Colors.white),
+                      ),  
+                  ]),
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 3,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
@@ -336,104 +277,125 @@ Widget _floatingCollapsed(){
                     ],
                   ),
                 ),       
-          ],
-        ),
-      )
-    ),
-  );
-}
-
-// Widget _floatingPanel(){
-//   return Container(
-//     decoration: BoxDecoration(
-//       color: Colors.white,
-//       // borderRadius: BorderRadius.all(Radius.circular(24.0)),
-//       boxShadow: [
-//         BoxShadow(
-//           blurRadius: 20.0,
-//           color: Colors.grey,
-//         ),
-//       ]
-//     ),
-//     child: Center(
-//       child: Text("This is the SlidingUpPanel when open"),
-//     ),
-//   );
-// }
-Widget _floatingPanel(){
-  return Container(
-    child: GestureDetector(
-      onTapUp: navigateToItem,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0), 
-            topRight: Radius.circular(20.0)
-          )
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: 50.0,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            FontAwesomeIcons.shoppingCart,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text( "View Cart",
-                          style: TextStyle(color: Colors.white),
-                        ),  
-                    ]),
-                  ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 3,
-                    child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              "2 Items | Subtotal: \$9.50",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),       
-                ],
-              ),
+              ],
             ),
-        ])
+          ),
+        ),
+      ),
+    );
 
-      )
+    // return Container(
+    //   decoration: BoxDecoration(
+    //     color: Colors.black,
+    //     borderRadius: BorderRadius.only(
+    //       topLeft: Radius.circular(20.0), 
+    //       topRight: Radius.circular(20.0)
+    //     )
+    //   ),
+    //   width: MediaQuery.of(context).size.width,
+    //   height: 50.0,
+    //   child: Padding(
+    //     padding: const EdgeInsets.only(top: 5.0,),
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: <Widget>[
+    //         Flexible(
+    //           flex: 2,
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: <Widget>[
+    //               Padding(
+    //                 padding: const EdgeInsets.only(right: 8.0),
+    //                 child: Icon(
+    //                   FontAwesomeIcons.shoppingCart,
+    //                   size: 18,
+    //                   color: Colors.white,
+    //                 ),
+    //               ),
+    //               Text( "View Cart",
+    //                 style: TextStyle(color: Colors.white),
+    //               ),  
+    //           ]),
+    //         ),
+    //         Flexible(
+    //           fit: FlexFit.tight,
+    //           flex: 3,
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: <Widget>[
+    //               SizedBox(
+    //                 width: 4.0,
+    //               ),
+    //               Text(
+    //                 "2 Items | Subtotal: \$9.50",
+    //                 style: TextStyle(color: Colors.white),
+    //               ),
+    //             ],
+    //           ),
+    //         ),       
+    //       ],
+    //     ),
+    //   ),
+    // );
+  }
+
+  Widget get _orderSummary => Container(
+    child: ListView.separated(
+      shrinkWrap: true,
+      itemCount: 4,
+      itemBuilder: (ctx, int) => _orderItem,
+      separatorBuilder: (ctx, int) => Divider(color: Colors.white,),
     ),
   );
-}
+
+  Widget get _orderItem => Container(
+    height: 50,
+    width: MediaQuery.of(context).size.width,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
+            child: Container(
+              height: 20,
+              width: 20,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey)
+              ),
+              child: Center(child: Text("1")),
+            ),
+          ),
+
+          Expanded(
+            flex: 3,
+            child:Text("Drunken Pig Sandwich", 
+              style: TextStyle(color: Colors.white)
+            )
+          ),
+
+          Expanded(
+            flex: 1,
+            child: Text("\$13.00",
+              style: TextStyle(color: Colors.white)
+            )
+          )
+      ]),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     final Color iconColor = Theme.of(context).accentColor;
+    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Rigos"),
         actions: <Widget>[
-//          MaterialDemoDocumentationButton(ScrollableTabsDemo.routeName),
           IconButton(
             icon: const Icon(Icons.sentiment_very_satisfied),
             onPressed: () {
@@ -442,23 +404,9 @@ Widget _floatingPanel(){
               });
             },
           ),
-          // PopupMenuButton<TabsDemoStyle>(
-          //   onSelected: changeDemoStyle,
-          //   itemBuilder: (BuildContext context) =>
-          //       <PopupMenuItem<TabsDemoStyle>>[
-          //         const PopupMenuItem<TabsDemoStyle>(
-          //             value: TabsDemoStyle.iconsAndText,
-          //             child: Text('Icons and text')),
-          //         const PopupMenuItem<TabsDemoStyle>(
-          //             value: TabsDemoStyle.iconsOnly,
-          //             child: Text('Icons only')),
-          //         const PopupMenuItem<TabsDemoStyle>(
-          //             value: TabsDemoStyle.textOnly, child: Text('Text only')),
-          //       ],
-          // ),
         ],
         bottom: TabBarNoRipple(
-          controller: _controller,
+          controller: _tabController,
           isScrollable: true,
           // indicator: getIndicator(),
           indicator: BubbleTabIndicator(
@@ -481,14 +429,8 @@ Widget _floatingPanel(){
         ),
       ),
 
-    body: SlidingUpPanel(
-      renderPanelSheet: false,
-      minHeight: 60,
-      panel: _floatingPanel(),
-      // collapsed: _floatingCollapsed(),
-      parallaxEnabled: true,
       body: TabBarView(
-        controller: _controller,
+        controller: _tabController,
         children: _allPages.map<Widget>((_Page page) {
           return SafeArea(
             child: SingleChildScrollView(
@@ -496,6 +438,7 @@ Widget _floatingPanel(){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
+                    color: Colors.white,
                     child: FutureBuilder(
                       initialData: <Widget>[Text("")],
                       future: createList(),
@@ -520,100 +463,9 @@ Widget _floatingPanel(){
           );
         }).toList()
       ),
-      ),
+
+      bottomSheet: _header(),
     );
-
-      // body: TabBarView(
-      //   controller: _controller,
-      //   children: _allPages.map<Widget>((_Page page) {
-      //     return SafeArea(
-      //       child: SingleChildScrollView(
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.center,
-      //           children: <Widget>[
-      //             Container(
-      //               child: FutureBuilder(
-      //                 initialData: <Widget>[Text("")],
-      //                 future: createList(),
-      //                 builder: (context,snapshot){
-      //                   if(snapshot.hasData){
-      //                     return Padding(
-      //                       padding: EdgeInsets.all(8.0),
-      //                       child: ListView(
-      //                         primary: false,
-      //                         shrinkWrap: true,
-      //                         children: snapshot.data,
-      //                       ),
-      //                     );
-      //                   } else {
-      //                     return CircularProgressIndicator();
-      //                   }
-      //                 }),
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //     );
-      //   }).toList()
-      // ),
-
-    //   bottomSheet: BottomAppBar(
-    //     elevation: 0,
-    //     child: GestureDetector(
-    //       onTapUp: navigateToItem,
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //           color: Colors.black,
-    //           borderRadius: BorderRadius.only(
-    //             topLeft: Radius.circular(20.0), 
-    //             topRight: Radius.circular(20.0)
-    //           )
-    //         ),
-    //         width: MediaQuery.of(context).size.width,
-    //         height: 50.0,
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: <Widget>[
-    //             Flexible(
-    //               flex: 2,
-    //               child: Row(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: <Widget>[
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(right: 8.0),
-    //                     child: Icon(
-    //                       FontAwesomeIcons.shoppingCart,
-    //                       size: 18,
-    //                       color: Colors.white,
-    //                     ),
-    //                   ),
-    //                   Text( "View Cart",
-    //                     style: TextStyle(color: Colors.white),
-    //                   ),  
-    //               ]),
-    //             ),
-    //             Flexible(
-    //               fit: FlexFit.tight,
-    //               flex: 3,
-    //               child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: <Widget>[
-    //                       SizedBox(
-    //                         width: 4.0,
-    //                       ),
-    //                       Text(
-    //                         "2 Items | Subtotal: \$9.50",
-    //                         style: TextStyle(color: Colors.white),
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),       
-    //           ],
-    //         ),
-    //       )
-    //     ),
-    //   ),
-    // );
   }
 }
 

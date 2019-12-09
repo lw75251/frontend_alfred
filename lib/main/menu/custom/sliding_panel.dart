@@ -271,9 +271,16 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
                           (widget.margin != null ? widget.margin.horizontal : 0) -
                           (widget.padding != null ? widget.padding.horizontal : 0),
                   child: Container(
-                    height: widget.maxHeight,
-                    child: widget.panel,
-                  )
+                    decoration: BoxDecoration(
+                    color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0)
+                      )
+                    ),
+                      height: widget.maxHeight,
+                      child: widget.panel,
+                    ),
                 ),
 
                 // collapsed panel
@@ -285,6 +292,12 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
                           (widget.padding != null ? widget.padding.horizontal : 0),
                   child: Container(
                     height: widget.minHeight,
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.only(
+                    //     topLeft: Radius.circular(20.0),
+                    //     topRight: Radius.circular(20.0)
+                    //   )
+                    // ),                    
                     child: Opacity(
                       opacity: 1.0 - _ac.value,
 
