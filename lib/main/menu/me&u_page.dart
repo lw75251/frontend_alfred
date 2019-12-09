@@ -2,6 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/custom/scrollable_tab_bar.dart';
+import 'package:flutter_alfred/main/menu/custom/cart_fab.dart';
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:flutter_alfred/routes/router.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 
 enum TabsDemoStyle { iconsAndText, iconsOnly, textOnly }
@@ -44,7 +49,7 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
   
   TabController _controller;
   TabsDemoStyle _demoStyle = TabsDemoStyle.textOnly;
-  bool _customIndicator = false;
+  bool _customIndicator = true;
   
   final List<_Page> _allPages = <_Page>[
     _Page(
@@ -191,13 +196,13 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
         return ShapeDecoration(
           shape: const StadiumBorder(
                 side: BorderSide(
-                  color: Colors.white24,
-                  width: 2.0,
+                  color: Colors.white54,
+                  width: 3.0,
                 ),
               ) +
               const StadiumBorder(
                 side: BorderSide(
-                  color: Colors.transparent,
+                  color: Colors.white12,
                   width: 4.0,
                 ),
               ),
@@ -206,11 +211,11 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
     return null;
   }
 
-  void changeDemoStyle(TabsDemoStyle style) {
-    setState(() {
-      _demoStyle = style;
-    });
-  }
+  // void changeDemoStyle(TabsDemoStyle style) {
+  //   setState(() {
+  //     _demoStyle = style;
+  //   });
+  // }
 
   Future<List<Widget>> createList() async {
     List<Widget> items = new List<Widget>();
@@ -247,7 +252,7 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),bottomLeft: Radius.circular(10.0)),
-              child: Image.asset(object["placeImage"],width: 100,height: 100,fit: BoxFit.cover,),
+              child: Image.asset(object["placeImage"],width: 80,height: 100,fit: BoxFit.cover,),
             ),
             SizedBox(
               width: 250,
@@ -275,6 +280,151 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
     return items;
   }
 
+  void navigateToItem(TapUpDetails details) {
+    router.navigateTo(context, checkoutRoute, 
+      transitionDuration: const Duration(milliseconds: 200));
+  }
+
+Widget _floatingCollapsed(){
+  return Container(
+    child: GestureDetector(
+      onTapUp: navigateToItem,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0), 
+            topRight: Radius.circular(20.0)
+          )
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: 50.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(
+                      FontAwesomeIcons.shoppingCart,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text( "View Cart",
+                    style: TextStyle(color: Colors.white),
+                  ),  
+              ]),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 3,
+              child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 4.0,
+                      ),
+                      Text(
+                        "2 Items | Subtotal: \$9.50",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),       
+          ],
+        ),
+      )
+    ),
+  );
+}
+
+// Widget _floatingPanel(){
+//   return Container(
+//     decoration: BoxDecoration(
+//       color: Colors.white,
+//       // borderRadius: BorderRadius.all(Radius.circular(24.0)),
+//       boxShadow: [
+//         BoxShadow(
+//           blurRadius: 20.0,
+//           color: Colors.grey,
+//         ),
+//       ]
+//     ),
+//     child: Center(
+//       child: Text("This is the SlidingUpPanel when open"),
+//     ),
+//   );
+// }
+Widget _floatingPanel(){
+  return Container(
+    child: GestureDetector(
+      onTapUp: navigateToItem,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0), 
+            topRight: Radius.circular(20.0)
+          )
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: 50.0,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(
+                            FontAwesomeIcons.shoppingCart,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text( "View Cart",
+                          style: TextStyle(color: Colors.white),
+                        ),  
+                    ]),
+                  ),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 3,
+                    child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              "2 Items | Subtotal: \$9.50",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),       
+                ],
+              ),
+            ),
+        ])
+
+      )
+    ),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     final Color iconColor = Theme.of(context).accentColor;
@@ -292,25 +442,30 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
               });
             },
           ),
-          PopupMenuButton<TabsDemoStyle>(
-            onSelected: changeDemoStyle,
-            itemBuilder: (BuildContext context) =>
-                <PopupMenuItem<TabsDemoStyle>>[
-                  const PopupMenuItem<TabsDemoStyle>(
-                      value: TabsDemoStyle.iconsAndText,
-                      child: Text('Icons and text')),
-                  const PopupMenuItem<TabsDemoStyle>(
-                      value: TabsDemoStyle.iconsOnly,
-                      child: Text('Icons only')),
-                  const PopupMenuItem<TabsDemoStyle>(
-                      value: TabsDemoStyle.textOnly, child: Text('Text only')),
-                ],
-          ),
+          // PopupMenuButton<TabsDemoStyle>(
+          //   onSelected: changeDemoStyle,
+          //   itemBuilder: (BuildContext context) =>
+          //       <PopupMenuItem<TabsDemoStyle>>[
+          //         const PopupMenuItem<TabsDemoStyle>(
+          //             value: TabsDemoStyle.iconsAndText,
+          //             child: Text('Icons and text')),
+          //         const PopupMenuItem<TabsDemoStyle>(
+          //             value: TabsDemoStyle.iconsOnly,
+          //             child: Text('Icons only')),
+          //         const PopupMenuItem<TabsDemoStyle>(
+          //             value: TabsDemoStyle.textOnly, child: Text('Text only')),
+          //       ],
+          // ),
         ],
         bottom: TabBarNoRipple(
           controller: _controller,
           isScrollable: true,
-          indicator: getIndicator(),
+          // indicator: getIndicator(),
+          indicator: BubbleTabIndicator(
+            indicatorHeight: 25.0,
+            indicatorColor: Colors.blueAccent,
+            tabBarIndicatorSize: TabBarIndicatorSize.tab
+          ),
           tabs: _allPages.map<Tab>((_Page page) {
             assert(_demoStyle != null);
             switch (_demoStyle) {
@@ -325,6 +480,13 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
           }).toList(),
         ),
       ),
+
+    body: SlidingUpPanel(
+      renderPanelSheet: false,
+      minHeight: 60,
+      panel: _floatingPanel(),
+      // collapsed: _floatingCollapsed(),
+      parallaxEnabled: true,
       body: TabBarView(
         controller: _controller,
         children: _allPages.map<Widget>((_Page page) {
@@ -358,8 +520,100 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
           );
         }).toList()
       ),
-      // floatingActionButton: ,
+      ),
     );
+
+      // body: TabBarView(
+      //   controller: _controller,
+      //   children: _allPages.map<Widget>((_Page page) {
+      //     return SafeArea(
+      //       child: SingleChildScrollView(
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.center,
+      //           children: <Widget>[
+      //             Container(
+      //               child: FutureBuilder(
+      //                 initialData: <Widget>[Text("")],
+      //                 future: createList(),
+      //                 builder: (context,snapshot){
+      //                   if(snapshot.hasData){
+      //                     return Padding(
+      //                       padding: EdgeInsets.all(8.0),
+      //                       child: ListView(
+      //                         primary: false,
+      //                         shrinkWrap: true,
+      //                         children: snapshot.data,
+      //                       ),
+      //                     );
+      //                   } else {
+      //                     return CircularProgressIndicator();
+      //                   }
+      //                 }),
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   }).toList()
+      // ),
+
+    //   bottomSheet: BottomAppBar(
+    //     elevation: 0,
+    //     child: GestureDetector(
+    //       onTapUp: navigateToItem,
+    //       child: Container(
+    //         decoration: BoxDecoration(
+    //           color: Colors.black,
+    //           borderRadius: BorderRadius.only(
+    //             topLeft: Radius.circular(20.0), 
+    //             topRight: Radius.circular(20.0)
+    //           )
+    //         ),
+    //         width: MediaQuery.of(context).size.width,
+    //         height: 50.0,
+    //         child: Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: <Widget>[
+    //             Flexible(
+    //               flex: 2,
+    //               child: Row(
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: <Widget>[
+    //                   Padding(
+    //                     padding: const EdgeInsets.only(right: 8.0),
+    //                     child: Icon(
+    //                       FontAwesomeIcons.shoppingCart,
+    //                       size: 18,
+    //                       color: Colors.white,
+    //                     ),
+    //                   ),
+    //                   Text( "View Cart",
+    //                     style: TextStyle(color: Colors.white),
+    //                   ),  
+    //               ]),
+    //             ),
+    //             Flexible(
+    //               fit: FlexFit.tight,
+    //               flex: 3,
+    //               child: Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: <Widget>[
+    //                       SizedBox(
+    //                         width: 4.0,
+    //                       ),
+    //                       Text(
+    //                         "2 Items | Subtotal: \$9.50",
+    //                         style: TextStyle(color: Colors.white),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),       
+    //           ],
+    //         ),
+    //       )
+    //     ),
+    //   ),
+    // );
   }
 }
 
