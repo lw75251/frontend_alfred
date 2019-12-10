@@ -48,6 +48,6 @@ class Routes {
     router.define(homeRoute, handler: homeHandler);
     router.define(qrRoute, handler: qrHandler);
     router.define(menuRoute, handler: menuHandler);
-    router.define(checkoutRoute, handler: checkoutHandler);
+    router.define(checkoutRoute, handler: checkoutHandler, transitionType: TransitionType.fadeIn);
   }
 }

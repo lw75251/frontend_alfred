@@ -41,10 +41,8 @@ class MeAndUScreen extends StatefulWidget {
 class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderStateMixin {
   
   TabController _tabController;
-  PanelController _panelController;
-  bool _isClosed = true;
-
   bool _start = false;
+  bool _return = false;
 
   TabsDemoStyle _demoStyle = TabsDemoStyle.textOnly;
   bool _customIndicator = true;
@@ -59,7 +57,6 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
   @override
   void initState() {
      _tabController = TabController(vsync: this, length: _allPages.length);
-     _panelController = PanelController();
     super.initState();
   }
 
@@ -202,29 +199,48 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
 
   Widget _header() {
 
-    final duration = const Duration(milliseconds: 800);
+
+    final statusBar = MediaQuery.of(context).padding.top;
+    final duration = const Duration(milliseconds: 300);
     final tween = MultiTrackTween([
-      Track("height").add( duration, Tween(begin: 50.0, end: 500.0)),
-      Track("ani").add( duration, Tween(begin: 0.0, end: 1.0))
+      Track("height").add( duration, Tween(
+        begin: 50.0, end: MediaQuery.of(context).size.height)),
+      Track("ani").add( duration, Tween(begin: 0.0, end: 1.0)),
+      Track("padding").add( duration, Tween(begin: 15.0, end: statusBar + 8.0)),
+      Track("opacity").add( duration, Tween(begin: 1.0, end: 0.0))
     ]);
+
+    Playback getPlayback() {
+      if (!_return) {
+        return !_start ? Playback.PAUSE : Playback.PLAY_FORWARD; 
+      } else {
+        return Playback.PLAY_REVERSE;
+      }
+    }
 
     void _startAnimation() {
       setState(() {
+        _return = false;
         _start = true;
       });
-    }
+    } 
 
-    void _listenToAnimationFinished(status) {
-      if (status == AnimationStatus.completed) {
-        // router.navigateTo(context, checkoutRoute, 
-        //   transitionDuration: const Duration(milliseconds: 200));
-      }
+    void _listenToAnimationFinished(status) async {
+      if ( !_return ) {
+        if (status == AnimationStatus.completed) {
+          final result = await Navigator.pushNamed(context, checkoutRoute);
+          setState(() {
+            _return = result;
+            _start = false;
+          });
+        }
+      } 
    }
 
     return GestureDetector(
       onTap: _startAnimation,
       child: ControlledAnimation(
-        playback: !_start ? Playback.PAUSE : Playback.PLAY_FORWARD,
+        playback: getPlayback(),
         tween: tween,
         duration: tween.duration,
         animationControllerStatusListener: _listenToAnimationFinished,
@@ -238,46 +254,52 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
           ),
           width: MediaQuery.of(context).size.width,
           height: ani["height"],
-          child: Padding(
-            padding: const EdgeInsets.only(top: 5.0,),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          FontAwesomeIcons.shoppingCart,
-                          size: 18,
-                          color: Colors.white,
-                        ),
+          child: Align(
+            alignment: Alignment.topCenter,
+              child: Padding(
+              padding: EdgeInsets.only(top: ani["padding"],),
+              child: Opacity(
+                opacity: ani["opacity"],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Icon(
+                              FontAwesomeIcons.shoppingCart,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text( "View Cart",
+                            style: TextStyle(color: Colors.white),
+                          ),  
+                      ]),
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            "2 Items | Subtotal: \$9.50",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
-                      Text( "View Cart",
-                        style: TextStyle(color: Colors.white),
-                      ),  
-                  ]),
+                    ),       
+                  ],
                 ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 4.0,
-                      ),
-                      Text(
-                        "2 Items | Subtotal: \$9.50",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),       
-              ],
+              ),
             ),
           ),
         ),
@@ -339,133 +361,102 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
     // );
   }
 
-  Widget get _orderSummary => Container(
-    child: ListView.separated(
-      shrinkWrap: true,
-      itemCount: 4,
-      itemBuilder: (ctx, int) => _orderItem,
-      separatorBuilder: (ctx, int) => Divider(color: Colors.white,),
-    ),
-  );
-
-  Widget get _orderItem => Container(
-    height: 50,
-    width: MediaQuery.of(context).size.width,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
-            child: Container(
-              height: 20,
-              width: 20,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey)
-              ),
-              child: Center(child: Text("1")),
-            ),
-          ),
-
-          Expanded(
-            flex: 3,
-            child:Text("Drunken Pig Sandwich", 
-              style: TextStyle(color: Colors.white)
-            )
-          ),
-
-          Expanded(
-            flex: 1,
-            child: Text("\$13.00",
-              style: TextStyle(color: Colors.white)
-            )
-          )
-      ]),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     final Color iconColor = Theme.of(context).accentColor;
     final _screenHeight = MediaQuery.of(context).size.height;
     final _screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rigos"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.sentiment_very_satisfied),
-            onPressed: () {
-              setState(() {
-                _customIndicator = !_customIndicator;
-              });
-            },
-          ),
-        ],
-        bottom: TabBarNoRipple(
-          controller: _tabController,
-          isScrollable: true,
-          // indicator: getIndicator(),
-          indicator: BubbleTabIndicator(
-            indicatorHeight: 25.0,
-            indicatorColor: Colors.blueAccent,
-            tabBarIndicatorSize: TabBarIndicatorSize.tab
-          ),
-          tabs: _allPages.map<Tab>((_Page page) {
-            assert(_demoStyle != null);
-            switch (_demoStyle) {
-              case TabsDemoStyle.iconsAndText:
-                return Tab(text: page.text, icon: Icon(page.icon));
-              case TabsDemoStyle.iconsOnly:
-                return Tab(icon: Icon(page.icon));
-              case TabsDemoStyle.textOnly:
-                return Tab(text: page.text);
-            }
-            return null;
-          }).toList(),
-        ),
-      ),
-
-      body: TabBarView(
-        controller: _tabController,
-        children: _allPages.map<Widget>((_Page page) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                    child: FutureBuilder(
-                      initialData: <Widget>[Text("")],
-                      future: createList(),
-                      builder: (context,snapshot){
-                        if(snapshot.hasData){
-                          return Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ListView(
-                              primary: false,
-                              shrinkWrap: true,
-                              children: snapshot.data,
-                            ),
-                          );
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      }),
-                  )
-                ],
-              ),
-            ),
-          );
-        }).toList()
-      ),
-
-      bottomSheet: _header(),
+    var style = TextStyle(
+      color: Colors.white
     );
+
+    return Material(
+      child: Stack(children: <Widget>[
+        Scaffold(
+          appBar: AppBar(
+            leading: BackButton(color: Colors.white,),
+            backgroundColor: Colors.black,
+            title: Text("Rigos", style: style),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.sentiment_very_satisfied),
+                onPressed: () {
+                  setState(() {
+                    _customIndicator = !_customIndicator;
+                  });
+                },
+              ),
+            ],
+            bottom: TabBarNoRipple(
+              controller: _tabController,
+              isScrollable: true,
+              // indicator: getIndicator(),
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.white,
+              indicator: BubbleTabIndicator(
+                indicatorHeight: 25.0,
+                indicatorColor: Colors.white,
+                tabBarIndicatorSize: TabBarIndicatorSize.tab
+              ),
+              tabs: _allPages.map<Tab>((_Page page) {
+                assert(_demoStyle != null);
+                switch (_demoStyle) {
+                  case TabsDemoStyle.iconsAndText:
+                    return Tab(text: page.text, icon: Icon(page.icon));
+                  case TabsDemoStyle.iconsOnly:
+                    return Tab(icon: Icon(page.icon));
+                  case TabsDemoStyle.textOnly:
+                    return Tab(text: page.text);
+                }
+                return null;
+              }).toList(),
+            ),
+          ),
+
+          body: TabBarView(
+            controller: _tabController,
+            children: _allPages.map<Widget>((_Page page) {
+              return SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        child: FutureBuilder(
+                          initialData: <Widget>[Text("")],
+                          future: createList(),
+                          builder: (context,snapshot){
+                            if(snapshot.hasData){
+                              return Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: ListView(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  children: snapshot.data,
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          }),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }).toList()
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: _header()
+        )
+      ]),
+    ); 
+    
+
   }
 }
 
