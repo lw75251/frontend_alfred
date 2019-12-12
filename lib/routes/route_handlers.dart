@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alfred/main/checkout/bag_screen.dart';
 import 'package:flutter_alfred/main/home/landing_page.dart';
 import 'package:flutter_alfred/main/login/login_page.dart';
-import 'package:flutter_alfred/main/login/login_screen.dart';
 import 'package:flutter_alfred/main/login/signup_screen.dart';
 import 'package:flutter_alfred/main/menu/me&u_page.dart';
 import 'package:flutter_alfred/qr_reader/qr_screen.dart';
@@ -11,13 +10,13 @@ import 'package:flutter_alfred/qr_reader/qr_screen.dart';
 
 Handler testHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return LoginScreen();
+    return LoginPage();
   });
 
 
 Handler loginHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return LoginScreen();
+    return LoginPage();
   });
 
 Handler signUpHandler = Handler(

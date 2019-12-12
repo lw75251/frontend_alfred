@@ -63,6 +63,37 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    void _onTap() {
+      var transition = (BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+        return Stack(children: <Widget>[
+            SlideTransition(
+              position: new Tween<Offset>(
+                begin: const Offset(0.0, 0.0),
+                end: const Offset(0.0, -1.0),
+              ).animate(animation),
+              child: this,
+            ),
+            SlideTransition(
+              position: new Tween<Offset>(
+                begin: const Offset(0.0, 1.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            )
+          ],
+        );
+      };
+
+      router.navigateTo(context, signUpRoute,
+        replace: true,
+        transition: TransitionType.custom,
+        transitionDuration: const Duration(milliseconds: 800),
+        transitionBuilder: transition,
+      );
+    }
+
+
     void _onSignInTapUp(TapUpDetails details) {
       var transition = (BuildContext context, Animation<double> animation,
         Animation<double> secondaryAnimation, Widget child) {
@@ -88,7 +119,7 @@ class LoginPage extends StatelessWidget {
       router.navigateTo(context, loginRoute,
         replace: true,
         transition: TransitionType.custom,
-        transitionDuration: const Duration(milliseconds: 200),
+        transitionDuration: const Duration(milliseconds: 400),
         transitionBuilder: transition,
       );
     }
@@ -109,16 +140,13 @@ class LoginPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFF8185E2),
+        backgroundColor: Colors.black,
         body: Center(
           child: Column(
             children: <Widget>[
               WhitespaceSeparator(height: 15),
               
-              SlidingFadeIn(
-                delay: _delay,
-                child: _logo,
-              ),
+              _logo,
 
               WhitespaceSeparator(),
 
@@ -146,7 +174,9 @@ class LoginPage extends StatelessWidget {
 
               SlidingFadeIn(
                 delay: _delay + 4000,
-                child: SignInButton()
+                child: SignInButton(
+                  onSuccess: _onTap,
+                )
               ),
 
               WhitespaceSeparator(),

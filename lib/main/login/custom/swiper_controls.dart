@@ -45,7 +45,6 @@ class _SwiperControlsState extends State<SwiperControls> {
           _activeIndex--;
           setState((){});
         } else if ( _activeIndex == 0 ) {
-          // widget.landingController.previousPage(duration: _duration, curve: _curve);
           var transition = (BuildContext context, Animation<double> animation,
             Animation<double> secondaryAnimation, Widget child) {
               return Stack(children: <Widget>[
@@ -71,9 +70,6 @@ class _SwiperControlsState extends State<SwiperControls> {
           router.navigateTo(context, loginRoute,
             replace: false,
             transition: TransitionType.custom,
-            // transitionBuilder: (context, animation, second, child) => SlideTransition(
-            //   position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
-              // child: child));
             transitionDuration: const Duration(milliseconds: 200),
             transitionBuilder: transition,
           );

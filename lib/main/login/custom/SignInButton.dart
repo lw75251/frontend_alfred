@@ -1,16 +1,14 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/routes/router.dart';
 
 class SignInButton extends StatefulWidget {
   final String text;
-  final GestureTapUpCallback onTapUp;
-  final GestureTapDownCallback onTapDown;
+  final Color textColor;
+  final VoidCallback onSuccess;
 
   SignInButton({
     this.text,
-    this.onTapUp,
-    this.onTapDown,
+    this.textColor,
+    this.onSuccess,
     Key key
   }) : super(key: key);
 
@@ -32,9 +30,12 @@ class _SignInButtonState extends State<SignInButton> with SingleTickerProviderSt
       ),
       lowerBound: 0.0,
       upperBound: 0.1,
-    )..addListener(() {
-        setState(() {});
-      });
+    ) ..addListener(() => setState((){}))
+      ..addStatusListener((status) {
+        if ( status == AnimationStatus.completed ) widget.onSuccess();
+      })
+    
+    ;
     super.initState();
   }
 
@@ -44,33 +45,6 @@ class _SignInButtonState extends State<SignInButton> with SingleTickerProviderSt
 
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
-    var transition = (BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-        return Stack(children: <Widget>[
-            SlideTransition(
-              position: new Tween<Offset>(
-                begin: const Offset(0.0, 0.0),
-                end: const Offset(0.0, -1.0),
-              ).animate(animation),
-              child: this.widget,
-            ),
-            SlideTransition(
-              position: new Tween<Offset>(
-                begin: const Offset(0.0, 1.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            )
-          ],
-        );
-      };
-
-    router.navigateTo(context, signUpRoute,
-      replace: true,
-      transition: TransitionType.custom,
-      transitionDuration: const Duration(milliseconds: 300),
-      transitionBuilder: transition,
-    );
   }
 
   @override
@@ -78,26 +52,29 @@ class _SignInButtonState extends State<SignInButton> with SingleTickerProviderSt
 
     _scale = 1 - _controller.value;
     return GestureDetector(
-      onTapUp: this.widget.onTapUp ?? this._onTapUp,
-      onTapDown: this.widget.onTapDown ?? this._onTapDown,
-      child: Container(
-        height: 60,
-        width: 270,
-        decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 10*_scale, offset: Offset(0, 10))],
-            borderRadius: BorderRadius.circular(100.0),
-            color: Colors.white,
-          ),          
-        child: Center(
-          child: Text(
-            "Hi Alfred",
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF8185E2)
+      onTapUp: _onTapUp,
+      onTapDown: _onTapDown,
+      child: Transform.scale(
+        scale: _scale,
+        child: Container(
+          height: 60,
+          width: 270,
+          decoration: BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 10*_scale, offset: Offset(0, 10))],
+              borderRadius: BorderRadius.circular(100.0),
+              color: Colors.white,
+            ),          
+          child: Center(
+            child: Text(
+              "Hi Alfred",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: widget.textColor
+              ),
             ),
-          ),
-        )
+          )
+        ),
       ),
     );
   }
