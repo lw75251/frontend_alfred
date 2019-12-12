@@ -1,0 +1,60 @@
+[
+    {
+        "category": "Entrees",
+        "items": [
+            {
+                "name": "Steak Burrito",
+                "description": "A juicy medium-rare steak burrito that comes with guac",
+                "image": "assets/images/hawkers.jpg",
+                "price": 12.50
+            },
+            {
+                "name": "Spicy Noodles",
+                "description": "Authentic Chinese stirfry that comes with Chinese Sausages, Celery, Mushrooms, and white rice",
+                "image": "assets/images/flipping.jpg",
+                "price": 9.00
+            },
+            {
+                "name": "Margarita Pizza with Choice Meat",
+                "description": "Select whatever meat you want on this delicious margarita pizza",
+                "image": "assets/images/hawkers.jpg",
+                "price": 15.00
+            },
+            {
+                "name": "BurgerKing Whopper",
+                "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
+                "image": "assets/images/hawkers.jpg",
+                "price": 12.50
+            }                                             
+        ]
+    },
+    {
+        "category": "Desserts",
+        "items": [
+            {
+                "name": "Pecan Icecream",
+                "description": "A flavorous pecan nutty ice cream to satisfy all your needs",
+                "image": "assets/images/hawkers.jpg",
+                "price": 12.50
+            },
+            {
+                "name": "Slice of Cake",
+                "description": "A nice small cake that isn't too sweet and isnt to fattening",
+                "image": "assets/images/flipping.jpg",
+                "price": 9.00
+            },
+            {
+                "name": "Mango Shaved Ice",
+                "description": "Restaurant Favorite MUST get",
+                "image": "assets/images/hawkers.jpg",
+                "price": 15.00
+            },
+            {
+                "name": "BurgerKing Cookies",
+                "description": "We sell these because BK gives them to us",
+                "image": "assets/images/hawkers.jpg",
+                "price": 12.50
+            }                                             
+        ]
+    }    
+]

@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^3.1.0
+  provider: ^3.2.0
   fluro: "^1.5.1"
   intl: ^0.16.0
   simple_animations: ^1.3.4
@@ -46,6 +46,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   font_awesome_flutter:
   material_design_icons_flutter:
+  google_fonts: ^0.1.1
 
 dev_dependencies:
   flutter_test:

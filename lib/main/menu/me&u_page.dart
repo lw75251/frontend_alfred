@@ -129,6 +129,19 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
   //   });
   // }
 
+  Future<List<_Page>> createTabs() async {
+    List<_Page> pages = new List<_Page>();
+    String dataString = await DefaultAssetBundle.of(context).loadString("assets/data2.json");
+
+    List<dynamic> dataJSON = jsonDecode(dataString);
+
+    dataJSON.forEach((object) {
+      
+    });
+
+  }
+
+
   Future<List<Widget>> createList() async {
     List<Widget> items = new List<Widget>();
     String dataString =
