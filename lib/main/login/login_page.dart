@@ -38,16 +38,31 @@ class LoginPage extends StatelessWidget {
 
   final _delay = 500;
 
+  // Widget get _logo => Hero(
+  //   tag: "logo",
+  //   child: AvatarGlow(
+  //     endRadius: 90,
+  //     duration: Duration(seconds: 2),
+  //     glowColor: Colors.white10,
+  //     repeat: true,
+  //     repeatPauseDuration: Duration(seconds: 2),
+  //     startDelay: Duration(seconds: 1),
+  //     child: Material(
+  //         elevation: 8.0,
+  //         shape: CircleBorder(),
+  //         child: CircleAvatar(
+  //           backgroundColor: Colors.grey[100],
+  //           child: FlutterLogo(
+  //             size: 50.0,
+  //           ),
+  //           radius: 50.0,
+  //         )),
+  //   ),
+  // );
+
   Widget get _logo => Hero(
     tag: "logo",
-    child: AvatarGlow(
-      endRadius: 90,
-      duration: Duration(seconds: 2),
-      glowColor: Colors.white10,
-      repeat: true,
-      repeatPauseDuration: Duration(seconds: 2),
-      startDelay: Duration(seconds: 1),
-      child: Material(
+    child: Material(
           elevation: 8.0,
           shape: CircleBorder(),
           child: CircleAvatar(
@@ -57,38 +72,45 @@ class LoginPage extends StatelessWidget {
             ),
             radius: 50.0,
           )),
-    ),
-  );
+  );  
 
   @override
   Widget build(BuildContext context) {
 
-    void _onTap() {
+    void _navigateToSignInRoute() {
       var transition = (BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-        return Stack(children: <Widget>[
-            SlideTransition(
-              position: new Tween<Offset>(
-                begin: const Offset(0.0, 0.0),
-                end: const Offset(0.0, -1.0),
-              ).animate(animation),
-              child: this,
-            ),
-            SlideTransition(
-              position: new Tween<Offset>(
-                begin: const Offset(0.0, 1.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            )
-          ],
+        return Material(
+          child: Stack(children: <Widget>[
+              SlideTransition(
+                position: new Tween<Offset>(
+                  begin: const Offset(0.0, 0.0),
+                  end: const Offset(0.0, -1.0),
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeOut
+                )),
+                child: this,
+              ),
+              SlideTransition(
+                position: new Tween<Offset>(
+                  begin: const Offset(0.0, 1.0),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeOut
+                )),
+                child: child,
+              )
+            ],
+          ),
         );
       };
 
       router.navigateTo(context, signUpRoute,
         replace: true,
         transition: TransitionType.custom,
-        transitionDuration: const Duration(milliseconds: 800),
+        transitionDuration: const Duration(milliseconds: 1000),
         transitionBuilder: transition,
       );
     }
@@ -175,7 +197,7 @@ class LoginPage extends StatelessWidget {
               SlidingFadeIn(
                 delay: _delay + 4000,
                 child: SignInButton(
-                  onSuccess: _onTap,
+                  onSuccess: _navigateToSignInRoute,
                 )
               ),
 

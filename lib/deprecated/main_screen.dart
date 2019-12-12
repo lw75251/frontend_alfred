@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/deprecated/home_pages/main_page.dart';
+import 'package:flutter_alfred/deprecated/home_pages/main_page.dart';
 
 import 'package:flutter_alfred/routes/router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
