@@ -149,8 +149,8 @@ class _SwiperControlsState extends State<SwiperControls> {
     Color color = widget.color;
 
     // Padding Values
-    const double right = 20.0;
-    const double top = 15.0;
+    const double right = 15.0;
+    const double top = 10.0;
     const double bottom = top;
 
     bool next = _activeIndex < itemCount - 1;

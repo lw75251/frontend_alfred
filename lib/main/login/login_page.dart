@@ -1,7 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/login/custom/SignInButton.dart';
+import 'package:flutter_alfred/main/login/custom/RoundedButton.dart';
 import 'package:flutter_alfred/main/login/custom/SlidingFadeIn.dart';
 import 'package:flutter_alfred/routes/router.dart';
 
@@ -62,17 +62,43 @@ class LoginPage extends StatelessWidget {
 
   Widget get _logo => Hero(
     tag: "logo",
-    child: Material(
-          elevation: 8.0,
-          shape: CircleBorder(),
-          child: CircleAvatar(
-            backgroundColor: Colors.grey[100],
-            child: FlutterLogo(
-              size: 50.0,
-            ),
-            radius: 50.0,
-          )),
+    child: Container(
+      margin: const EdgeInsets.only(top: 20.0),
+      child: Material(
+        elevation: 8.0,
+        shape: CircleBorder(),
+        child: CircleAvatar(
+          backgroundColor: Colors.grey[100],
+          child: FlutterLogo(
+            size: 40.0,
+          ),
+          radius: 30.0,
+      )),
+    ),
   );  
+
+  Widget get _description => Container(
+    child: Column(
+      children: <Widget>[
+        SlidingFadeIn(
+          delay: _delay + 1000,
+          child: Text("Alfred", style: headerStyle)
+        ),
+
+        WhitespaceSeparator(height: 10),
+
+        SlidingFadeIn(
+          delay: _delay + 2000,
+          child: Text("Your new personal butler", style: bodyStyle)
+        ),
+        SlidingFadeIn(
+          delay: _delay + 2000, 
+          child: Text("for everywhere you eat!", style: bodyStyle)
+        ),
+    ]),                
+  );
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +172,30 @@ class LoginPage extends StatelessWidget {
       );
     }
 
+    Widget _buttons() {
+      return Container(
+        child: Column(children: <Widget>[
+          SlidingFadeIn(
+            delay: _delay + 3000,
+            child: RoundedButton(
+              text: "Get Started",
+              onSuccess: _navigateToSignInRoute,
+            )
+          ),
+
+          WhitespaceSeparator(),
+
+          SlidingFadeIn(
+            delay: _delay + 3000,
+            child: RoundedButton(
+              text: "Log In",
+              onSuccess: _navigateToSignInRoute,
+            )
+          ),
+        ]),
+      );
+    }
+
     Widget _loginAccount(){
       return GestureDetector(
         onTapUp: _onSignInTapUp,
@@ -162,54 +212,21 @@ class LoginPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              WhitespaceSeparator(height: 15),
-              
-              _logo,
+        backgroundColor: Colors.blueGrey,
+        body: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _logo,
+                _description,
 
-              WhitespaceSeparator(),
+                Container(),
+                Container(),
 
-              SlidingFadeIn(
-                delay: _delay + 1000,
-                child: Text("Hello There", style: headerStyle)
-              ),
-              SlidingFadeIn(
-                delay: _delay + 2000, 
-                child: Text("I'm Alfred", style: headerStyle)
-              ),
-
-              WhitespaceSeparator(),
-
-              SlidingFadeIn(
-                delay: _delay + 3000,
-                child: Text("Your New Personal Butler", style: bodyStyle)
-              ),
-              SlidingFadeIn(
-                delay: _delay + 3000, 
-                child: Text("For everywhere you go!", style: bodyStyle)
-              ),
-
-              WhitespaceSeparator(height: 90),
-
-              SlidingFadeIn(
-                delay: _delay + 4000,
-                child: SignInButton(
-                  onSuccess: _navigateToSignInRoute,
-                )
-              ),
-
-              WhitespaceSeparator(),
-
-              SlidingFadeIn(
-                delay: _delay + 4000,
-                child: _loginAccount()
-              ),
-            ],
+                _buttons()
+            ])
           ),
-        )
       )
     );
   }

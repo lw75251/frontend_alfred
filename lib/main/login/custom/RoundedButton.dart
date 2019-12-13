@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SignInButton extends StatefulWidget {
+class RoundedButton extends StatefulWidget {
   final String text;
   final Color textColor;
   final VoidCallback onSuccess;
 
-  SignInButton({
+  RoundedButton({
     this.text,
     this.textColor,
     this.onSuccess,
@@ -13,10 +13,10 @@ class SignInButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SignInButtonState createState() => _SignInButtonState();
+  _RoundedButtonState createState() => _RoundedButtonState();
 }
 
-class _SignInButtonState extends State<SignInButton> with SingleTickerProviderStateMixin {
+class _RoundedButtonState extends State<RoundedButton> with SingleTickerProviderStateMixin {
 
   double _scale;
   AnimationController _controller;
@@ -30,12 +30,7 @@ class _SignInButtonState extends State<SignInButton> with SingleTickerProviderSt
       ),
       lowerBound: 0.0,
       upperBound: 0.1,
-    ) ..addListener(() => setState((){}))
-      ..addStatusListener((status) {
-        if ( status == AnimationStatus.completed ) widget.onSuccess();
-      })
-    
-    ;
+    ) ..addListener(() => setState((){}));
     super.initState();
   }
 
@@ -45,30 +40,32 @@ class _SignInButtonState extends State<SignInButton> with SingleTickerProviderSt
 
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
+    widget.onSuccess();
   }
 
   @override
   Widget build(BuildContext context) {
 
     _scale = 1 - _controller.value;
+    final _width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTapUp: _onTapUp,
       onTapDown: _onTapDown,
       child: Transform.scale(
         scale: _scale,
         child: Container(
-          height: 60,
-          width: 270,
+          height: 40,
+          width: _width*8/9,
           decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 10*_scale, offset: Offset(0, 10))],
+              // boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0, offset: Offset(0, 10))],
               borderRadius: BorderRadius.circular(100.0),
               color: Colors.white,
             ),          
           child: Center(
             child: Text(
-              "Hi Alfred",
+              widget.text.toUpperCase(),
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.bold,
                 color: widget.textColor
               ),
