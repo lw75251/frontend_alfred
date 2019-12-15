@@ -1,9 +1,8 @@
 import 'dart:math';
 
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/login/custom/NameSlide.dart';
+import 'package:flutter_alfred/main/login/NameSlide.dart';
 import 'package:flutter_alfred/main/login/custom/swiper_controls.dart';
 import 'package:flutter_alfred/routes/router.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
@@ -161,6 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey,
       body: Column(
         children: <Widget>[

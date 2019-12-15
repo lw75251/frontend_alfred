@@ -11,7 +11,7 @@ import 'package:flutter_alfred/qr_reader/qr_screen.dart';
 
 Handler testHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return SignUpPage();
+    return QRScreen();
   });
 
 

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'flutter_qr_reader.dart';
 import 'package:image_picker/image_picker.dart';
 
-/// 使用前需已经获取相关权限
 /// Relevant privileges must be obtained before use
 class QrcodeReaderView extends StatefulWidget {
   final Widget headerWidget;
@@ -25,7 +24,7 @@ class QrcodeReaderView extends StatefulWidget {
   QrcodeReaderViewState createState() => new QrcodeReaderViewState();
 }
 
-/// 扫码后的后续操作
+/// Follow-up Operations after Scanning
 /// ```dart
 /// GlobalKey<QrcodeReaderViewState> qrViewKey = GlobalKey();
 /// qrViewKey.currentState.startScan();
@@ -140,7 +139,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
         final qrScanSize = constraints.maxWidth * widget.scanBoxRatio;
         final mediaQuery = MediaQuery.of(context);
         if (constraints.maxHeight < qrScanSize * 1.5) {
-          print("建议高度与扫码区域高度比大于1.5");
+          print("The recommended height to height ratio of the scanning area is greater than 1");
         }
         return Stack(
           children: <Widget>[
@@ -179,7 +178,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
                 alignment: Alignment.center,
                 child: DefaultTextStyle(
                   style: TextStyle(color: Colors.white),
-                  child: widget.helpWidget ?? Text("请将二维码置于方框中"),
+                  child: widget.helpWidget ?? Text("Please put the QR code in the box"),
                 ),
               ),
             ),

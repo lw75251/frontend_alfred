@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_qr_reader/qrcode_reader_view.dart';
+import 'package:flutter_alfred/qr_reader/custom/flutter_qr_reader.dart';
+import 'package:flutter_alfred/qr_reader/custom/qr_reader_view.dart';
+// import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+// import 'package:flutter_qr_reader/qrcode_reader_view.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -25,13 +27,6 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
     await PermissionHandler().requestPermissions([PermissionGroup.camera]);
     print(permissions);
     if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-      // showDialog(context: context,
-      //   builder: (context) {
-      //     return Dialog(
-      //       child: Text("ok"),
-      //     );
-      //   },
-      // );
       setState(() {
         isOk = true;
       });
@@ -49,11 +44,11 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text("扫码结果"),
+          title: Text("Scanning Results"),
           content: Text(data),
           actions: <Widget>[
             CupertinoDialogAction(
-              child: Text("确认"),
+              child: Text("Confirm"),
               onPressed: () => Navigator.pop(context),
             )
           ],

@@ -112,7 +112,7 @@ class HomePage extends StatelessWidget {
                     child: GestureDetector(
                       child: _animatedLogo,
                       onTapUp: (details){
-                        router.navigateTo(context, menuRoute, 
+                        router.navigateTo(context, qrRoute, 
                           transitionDuration: const Duration(milliseconds: 200));
                       },
                     )

@@ -54,11 +54,14 @@ class _NameSlideState extends State<NameSlide> {
               fontSize: 30.0,
             )),
           ),
+
+          //TODO: Make this portion scrollable but snaps into place when not
           Expanded(
             flex: 5,
             child: SingleChildScrollView(
               child: TextField(
               onChanged: _onTextChanged,
+              maxLength: 32,
               controller: _textController,
               style: TextStyle(color: Colors.white, fontSize: 30),
               decoration: InputDecoration(
