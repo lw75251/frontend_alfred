@@ -77,6 +77,7 @@ flutter:
     - assets/images/pizzahut.jpg
     - assets/images/flipping.jpg
     - assets/data.json
+    - assets/data2.json
   fonts:
       - family: Nunito
         fonts:

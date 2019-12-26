@@ -32,6 +32,41 @@ class _Page {
   });
 }
 
+class _Category {
+  final String title;
+  final List<_Item> items;
+
+   _Category({
+    this.title,
+    this.items
+  });
+}
+
+
+class _Item {
+  final String name;
+  final String image;
+  final String description;
+  final double price;
+
+  const _Item({
+    this.name,
+    this.image,
+    this.description,
+    this.price,
+  });
+
+  factory _Item.fromJson(Map<String, dynamic> json) {
+    return _Item(
+      name: json["name"],
+      image: json["image"],
+      description: json["description"],
+      price: json["price"]
+    );
+  }
+
+}
+
 class MeAndUScreen extends StatefulWidget {
 
   @override
@@ -56,7 +91,7 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
 
   @override
   void initState() {
-     _tabController = TabController(vsync: this, length: _allPages.length);
+    _tabController = TabController(vsync: this, length: _allPages.length);
     super.initState();
   }
 
@@ -123,24 +158,78 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
     return null;
   }
 
-  // void changeDemoStyle(TabsDemoStyle style) {
-  //   setState(() {
-  //     _demoStyle = style;
-  //   });
-  // }
-
-  Future<List<_Page>> createTabs() async {
-    List<_Page> pages = new List<_Page>();
+  Future<List<_Category>> getMenu() async {
+    List<_Category> _menu = new List<_Category>();
     String dataString = await DefaultAssetBundle.of(context).loadString("assets/data2.json");
+    List<dynamic> _jsonData = jsonDecode(dataString);
 
-    List<dynamic> dataJSON = jsonDecode(dataString);
-
-    dataJSON.forEach((object) {
-      
+    _jsonData.forEach((object) {
+      List<dynamic> _itemData = object["items"];
+      _Category category = _Category(
+        title: object["category"],
+        items: _itemData.map<_Item>( 
+          (item) => _Item.fromJson(item)
+        ).toList()
+      );
+      _menu.add(category);
     });
 
+    return _menu;
   }
 
+  List<Tab> createTabs(List<_Category> menu) {
+    return menu.map<Tab>((category) => Tab(text: category.title)).toList();
+  }
+
+  List<Widget> createItems(List<_Category> menu, int index) {
+    List<_Item> items = menu[index].items;
+    return items.map((item) {
+      return Padding(
+        padding: EdgeInsets.all(2.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                spreadRadius: 2.0,
+                blurRadius: 5.0
+              )
+            ]
+          ),
+          margin: EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),bottomLeft: Radius.circular(10.0)),
+                child: Image.asset(item.image,width: 80,height: 100,fit: BoxFit.cover,),
+              ),
+              SizedBox(
+                width: 250,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(item.name),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0,bottom: 2.0),
+                        child: Text(item.description, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,color: Colors.black54,),maxLines: 1,),
+                      ),
+                      Text("Price: ${item.price}",style: TextStyle(fontSize: 12.0,color: Colors.black54))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      );
+    }).toList();
+  }
 
   Future<List<Widget>> createList() async {
     List<Widget> items = new List<Widget>();
@@ -318,60 +407,6 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
         ),
       ),
     );
-
-    // return Container(
-    //   decoration: BoxDecoration(
-    //     color: Colors.black,
-    //     borderRadius: BorderRadius.only(
-    //       topLeft: Radius.circular(20.0), 
-    //       topRight: Radius.circular(20.0)
-    //     )
-    //   ),
-    //   width: MediaQuery.of(context).size.width,
-    //   height: 50.0,
-    //   child: Padding(
-    //     padding: const EdgeInsets.only(top: 5.0,),
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: <Widget>[
-    //         Flexible(
-    //           flex: 2,
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: <Widget>[
-    //               Padding(
-    //                 padding: const EdgeInsets.only(right: 8.0),
-    //                 child: Icon(
-    //                   FontAwesomeIcons.shoppingCart,
-    //                   size: 18,
-    //                   color: Colors.white,
-    //                 ),
-    //               ),
-    //               Text( "View Cart",
-    //                 style: TextStyle(color: Colors.white),
-    //               ),  
-    //           ]),
-    //         ),
-    //         Flexible(
-    //           fit: FlexFit.tight,
-    //           flex: 3,
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: <Widget>[
-    //               SizedBox(
-    //                 width: 4.0,
-    //               ),
-    //               Text(
-    //                 "2 Items | Subtotal: \$9.50",
-    //                 style: TextStyle(color: Colors.white),
-    //               ),
-    //             ],
-    //           ),
-    //         ),       
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -385,91 +420,79 @@ class _MeAndUScreenState extends State<MeAndUScreen> with SingleTickerProviderSt
     );
 
     return Material(
-      child: Stack(children: <Widget>[
-        Scaffold(
-          appBar: AppBar(
-            leading: BackButton(color: Colors.white,),
-            backgroundColor: Colors.black,
-            title: Text("Rigos", style: style),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.sentiment_very_satisfied),
-                onPressed: () {
-                  setState(() {
-                    _customIndicator = !_customIndicator;
-                  });
-                },
-              ),
-            ],
-            bottom: TabBarNoRipple(
-              controller: _tabController,
-              isScrollable: true,
-              // indicator: getIndicator(),
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.white,
-              indicator: BubbleTabIndicator(
-                indicatorHeight: 25.0,
-                indicatorColor: Colors.white,
-                tabBarIndicatorSize: TabBarIndicatorSize.tab
-              ),
-              tabs: _allPages.map<Tab>((_Page page) {
-                assert(_demoStyle != null);
-                switch (_demoStyle) {
-                  case TabsDemoStyle.iconsAndText:
-                    return Tab(text: page.text, icon: Icon(page.icon));
-                  case TabsDemoStyle.iconsOnly:
-                    return Tab(icon: Icon(page.icon));
-                  case TabsDemoStyle.textOnly:
-                    return Tab(text: page.text);
-                }
-                return null;
-              }).toList(),
-            ),
-          ),
+      child:
 
-          body: TabBarView(
-            controller: _tabController,
-            children: _allPages.map<Widget>((_Page page) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.white,
-                        child: FutureBuilder(
-                          initialData: <Widget>[Text("")],
-                          future: createList(),
-                          builder: (context,snapshot){
-                            if(snapshot.hasData){
-                              return Padding(
+      FutureBuilder(
+        future: getMenu(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<_Category> menu = snapshot.data;
+            return Stack(children: <Widget>[
+              Scaffold(
+                appBar: AppBar(
+                  leading: BackButton(color: Colors.white,),
+                  backgroundColor: Colors.black,
+                  title: Text("Rigos", style: style),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: const Icon(Icons.sentiment_very_satisfied),
+                      onPressed: () {
+                        setState(() {
+                          _customIndicator = !_customIndicator;
+                        });
+                      },
+                    ),
+                  ],
+                  bottom: TabBarNoRipple(
+                    controller: _tabController,
+                    isScrollable: true,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.white,
+                    indicator: BubbleTabIndicator(
+                      indicatorHeight: 25.0,
+                      indicatorColor: Colors.white,
+                      tabBarIndicatorSize: TabBarIndicatorSize.tab
+                    ),
+                    tabs: createTabs(menu)
+                  ),
+                ),
+                body: TabBarView(
+                  controller: _tabController,
+                  children: menu.asMap().map<int, Widget>((int i, _Category category) {
+                    return MapEntry(i, SafeArea(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              color: Colors.white,
+                              child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: ListView(
                                   primary: false,
                                   shrinkWrap: true,
-                                  children: snapshot.data,
+                                  children: createItems(menu, i),
                                 ),
-                              );
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          }),
-                      )
-                    ],
-                  ),
+                              )
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+                  }).values.toList()
                 ),
-              );
-            }).toList()
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: _header()
-        )
-      ]),
-    ); 
-    
-
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: _header()
+              )
+            ]);
+          } else {
+            return CircularProgressIndicator();
+          }
+        }
+      )
+    );
   }
 }
 
