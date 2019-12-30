@@ -5,27 +5,45 @@
             {
                 "name": "Fried Calimari",
                 "description": "A juicy medium-rare steak burrito that comes with guac",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate1.png",
                 "price": 12.50
             },
             {
                 "name": "California Roll",
                 "description": "Authentic Chinese stirfry that comes with Chinese Sausages, Celery, Mushrooms, and white rice",
-                "image": "assets/images/flipping.jpg",
+                "image": "assets/images/plate2.png",
                 "price": 9.00
             },
             {
                 "name": "Chicken Wings",
                 "description": "Select whatever meat you want on this delicious margarita pizza",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate3.png",
                 "price": 15.00
             },
             {
                 "name": "Onion Rings",
                 "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate4.png",
                 "price": 12.50
-            }                                             
+            },
+            {
+                "name": "Onion Rings",
+                "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
+                "image": "assets/images/plate4.png",
+                "price": 12.50
+            },      
+            {
+                "name": "Onion Rings",
+                "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
+                "image": "assets/images/plate4.png",
+                "price": 12.50
+            },      
+            {
+                "name": "Onion Rings",
+                "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
+                "image": "assets/images/plate4.png",
+                "price": 12.50
+            }                                                                           
         ]
     },
 
@@ -35,25 +53,25 @@
             {
                 "name": "Steak Burrito",
                 "description": "A juicy medium-rare steak burrito that comes with guac",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate1.png",
                 "price": 12.50
             },
             {
                 "name": "Spicy Noodles",
                 "description": "Authentic Chinese stirfry that comes with Chinese Sausages, Celery, Mushrooms, and white rice",
-                "image": "assets/images/flipping.jpg",
+                "image": "assets/images/plate2.png",
                 "price": 9.00
             },
             {
                 "name": "Margarita Pizza with Choice Meat",
                 "description": "Select whatever meat you want on this delicious margarita pizza",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate3.png",
                 "price": 15.00
             },
             {
                 "name": "BurgerKing Whopper",
                 "description": "A classic Burger King giant Whopper topped with pickles, onions, tomatos, and lettuce",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate4.png",
                 "price": 12.50
             }                                             
         ]
@@ -65,25 +83,25 @@
             {
                 "name": "Pecan Icecream",
                 "description": "A flavorous pecan nutty ice cream to satisfy all your needs",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate1.png",
                 "price": 12.50
             },
             {
                 "name": "Slice of Cake",
                 "description": "A nice small cake that isn't too sweet and isnt to fattening",
-                "image": "assets/images/flipping.jpg",
+                "image": "assets/images/plate2.png",
                 "price": 9.00
             },
             {
                 "name": "Mango Shaved Ice",
                 "description": "Restaurant Favorite MUST get",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate3.png",
                 "price": 15.00
             },
             {
                 "name": "BurgerKing Cookies",
                 "description": "We sell these because BK gives them to us",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate4.png",
                 "price": 12.50
             }                                             
         ]
@@ -95,25 +113,25 @@
             {
                 "name": "Milk Tea",
                 "description": "A flavorous pecan nutty ice cream to satisfy all your needs",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate3.png",
                 "price": 12.50
             },
             {
                 "name": "Orange Juice",
                 "description": "A nice small cake that isn't too sweet and isnt to fattening",
-                "image": "assets/images/flipping.jpg",
+                "image": "assets/images/plate4.png",
                 "price": 9.00
             },
             {
                 "name": "Apple Juice",
                 "description": "Restaurant Favorite MUST get",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate5.png",
                 "price": 15.00
             },
             {
                 "name": "Soda",
                 "description": "We sell these because BK gives them to us",
-                "image": "assets/images/hawkers.jpg",
+                "image": "assets/images/plate6.png",
                 "price": 12.50
             }                                             
         ]

@@ -76,6 +76,14 @@ flutter:
     - assets/images/bluehill.jpg
     - assets/images/pizzahut.jpg
     - assets/images/flipping.jpg
+
+    - assets/images/plate1.png
+    - assets/images/plate2.png
+    - assets/images/plate3.png
+    - assets/images/plate4.png
+    - assets/images/plate5.png
+    - assets/images/plate6.png
+
     - assets/data.json
     - assets/data2.json
   fonts:

@@ -5,13 +5,16 @@ import 'package:flutter_alfred/main/home/landing_page.dart';
 import 'package:flutter_alfred/main/login/SignupPage.dart';
 import 'package:flutter_alfred/main/login/login_page.dart';
 import 'package:flutter_alfred/main/login/signup_screen.dart';
+import 'package:flutter_alfred/main/menu/item_page.dart';
 import 'package:flutter_alfred/main/menu/me&u_page.dart';
 import 'package:flutter_alfred/qr_reader/qr_screen.dart';
+
+import '../main/menu/menu_page.dart';
 
 
 Handler testHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return QRScreen();
+    return MenuScreen();
   });
 
 
