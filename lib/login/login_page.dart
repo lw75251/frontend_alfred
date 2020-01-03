@@ -1,9 +1,9 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/login/custom/RoundedButton.dart';
-import 'package:flutter_alfred/main/login/custom/SlidingFadeIn.dart';
-import 'package:flutter_alfred/routes/router.dart';
+import 'package:flutter_alfred/login/custom/RoundedButton.dart';
+import 'package:flutter_alfred/login/custom/SlidingFadeIn.dart';
+import 'package:flutter_alfred/routes.dart';
+
 
 class WhitespaceSeparator extends StatelessWidget {
   final double height;
@@ -37,28 +37,6 @@ class LoginPage extends StatelessWidget {
   );
 
   final _delay = 500;
-
-  // Widget get _logo => Hero(
-  //   tag: "logo",
-  //   child: AvatarGlow(
-  //     endRadius: 90,
-  //     duration: Duration(seconds: 2),
-  //     glowColor: Colors.white10,
-  //     repeat: true,
-  //     repeatPauseDuration: Duration(seconds: 2),
-  //     startDelay: Duration(seconds: 1),
-  //     child: Material(
-  //         elevation: 8.0,
-  //         shape: CircleBorder(),
-  //         child: CircleAvatar(
-  //           backgroundColor: Colors.grey[100],
-  //           child: FlutterLogo(
-  //             size: 50.0,
-  //           ),
-  //           radius: 50.0,
-  //         )),
-  //   ),
-  // );
 
   Widget get _logo => Hero(
     tag: "logo",
@@ -133,12 +111,13 @@ class LoginPage extends StatelessWidget {
         );
       };
 
-      router.navigateTo(context, signUpRoute,
-        replace: true,
-        transition: TransitionType.custom,
-        transitionDuration: const Duration(milliseconds: 1000),
-        transitionBuilder: transition,
-      );
+      // router.navigateTo(context, signUpRoute,
+      //   replace: true,
+      //   transition: TransitionType.custom,
+      //   transitionDuration: const Duration(milliseconds: 1000),
+      //   transitionBuilder: transition,
+      // );
+      Navigator.pushNamed(context, signupRoute);
     }
 
 
@@ -164,12 +143,13 @@ class LoginPage extends StatelessWidget {
           );
         };
 
-      router.navigateTo(context, loginRoute,
-        replace: true,
-        transition: TransitionType.custom,
-        transitionDuration: const Duration(milliseconds: 400),
-        transitionBuilder: transition,
-      );
+      // router.navigateTo(context, loginRoute,
+      //   replace: true,
+      //   transition: TransitionType.custom,
+      //   transitionDuration: const Duration(milliseconds: 400),
+      //   transitionBuilder: transition,
+      // );
+      Navigator.pushNamed(context, loginRoute);
     }
 
     Widget _buttons() {

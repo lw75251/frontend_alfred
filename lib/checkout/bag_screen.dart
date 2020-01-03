@@ -3,45 +3,6 @@ import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-
-enum TabsDemoStyle { iconsAndText, iconsOnly, textOnly }
-
-class _Category {
-  final String title;
-  final List<_Item> items;
-
-   _Category({
-    this.title,
-    this.items
-  });
-}
-
-
-class _Item {
-  final String name;
-  final String image;
-  final String description;
-  final double price;
-
-  const _Item({
-    this.name,
-    this.image,
-    this.description,
-    this.price,
-  });
-
-  factory _Item.fromJson(Map<String, dynamic> json) {
-    return _Item(
-      name: json["name"],
-      image: json["image"],
-      description: json["description"],
-      price: json["price"]
-    );
-  }
-
-}
-
-
 class CartScreen extends StatefulWidget {
 
   const CartScreen({Key key}) : super (key: key);

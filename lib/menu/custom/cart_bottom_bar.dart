@@ -12,7 +12,7 @@ typedef AniWidgetBuilder = Widget Function(BuildContext context, dynamic ani);
 
 class _CheckoutButtonState extends State<CheckoutButton> {
   bool _startAnimation = false;
-  bool _firstAnimationFinished = false;
+  // bool _firstAnimationFinished = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,6 @@ class _CheckoutButtonState extends State<CheckoutButton> {
 
   void _listenToAnimationFinished(status) {
     if (status == AnimationStatus.completed) {
-      //TODO: Navigate to Cart Screen
     }
   }
 

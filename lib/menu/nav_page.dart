@@ -1,19 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/checkout/bag_screen.dart';
 import 'package:flutter_alfred/custom/fluid_nav_bar/fluid_nav_bar.dart';
-import 'package:flutter_alfred/main/checkout/bag_screen.dart';
-import 'package:flutter_alfred/main/menu/menu_page.dart';
+import 'package:flutter_alfred/menu/menu_page.dart';
+
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:provider/provider.dart';
 
-class BottomNavigationBarController extends StatefulWidget {
+class MenuNavigation extends StatefulWidget {
   @override
-  _BottomNavigationBarControllerState createState() =>
-      _BottomNavigationBarControllerState();
+  _MenuNavigationState createState() =>
+      _MenuNavigationState();
 }
 
-class _BottomNavigationBarControllerState
-    extends State<BottomNavigationBarController> {
+class _MenuNavigationState
+    extends State<MenuNavigation> {
   final List<Widget> pages = [
     MenuScreen(
       key: PageStorageKey('Menu'),

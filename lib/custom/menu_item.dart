@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_alfred/main/menu/custom/quantity_tracker.dart';
+import 'package:flutter_alfred/menu/custom/quantity_tracker.dart';
 
 import 'package:intl/intl.dart';
 

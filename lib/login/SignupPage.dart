@@ -1,76 +1,62 @@
 import 'dart:math';
 
-import 'package:avatar_glow/avatar_glow.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/main/login/custom/swiper_controls.dart';
+import 'package:flutter_alfred/login/NameSlide.dart';
+import 'package:flutter_alfred/login/custom/swiper_controls.dart';
+import 'package:flutter_alfred/routes.dart';
 
-import 'package:flutter_alfred/routes/router.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
-import 'package:square_in_app_payments/in_app_payments.dart';
-import 'package:square_in_app_payments/models.dart';
 
-
-class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  
+  SignUpPage({Key key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen>
-    with SingleTickerProviderStateMixin {
+class _SignUpPageState extends State<SignUpPage> {
 
-  double size = 6.0;
-  double activeSize = 6.0;
-  double space = 10.0;
+  // Controllers
+  PageController _pageController;
+  TextEditingController _nameController;
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
 
-  final PageController _pageController = new PageController();
-  PageIndicatorLayout layout = PageIndicatorLayout.SLIDE;
-  List<PageIndicatorLayout> layouts = PageIndicatorLayout.values;
-  bool loop = false;
-
-  final TextEditingController _nameController = new TextEditingController();
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _passwordController = new TextEditingController();
-
-  Future<void> _pay() async {
-    InAppPayments.setSquareApplicationId('sq0idp-_kKyxYaHI-WWjFt367OuzA');
-    await InAppPayments.startCardEntryFlow(
-      onCardNonceRequestSuccess: _cardNonceRequestSuccess,
-      onCardEntryCancel: _cardEntryCancel,
-    );
-  }
-
-  void _cardEntryCancel() {
-    // TODO: If User Cancels Card Entry, what happens?
-  }
-
-  void _cardNonceRequestSuccess(CardDetails result) async {
-    print(result.nonce);
-
-    try {
-      InAppPayments.completeCardEntry(
-        onCardEntryComplete: _cardEntryComplete
-      );
-    } catch (ex) {
-      InAppPayments.showCardNonceProcessingError(ex.toString());
-    }
-
-  }
-
-  void _cardEntryComplete() {
-    // TODO: On Sucess
+  @override
+  void initState() {
+    _pageController = new PageController();
+    _nameController = new TextEditingController();
+    _emailController = new TextEditingController();
+    _passwordController = new TextEditingController();
+    super.initState();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _pageController.dispose();
     super.dispose();
   }
+
+  Widget get _logo => Hero(
+    tag: "logo",
+    child: Container(
+      margin: const EdgeInsets.only(top: 15.0, left: 8.0),
+      child: Material(
+        elevation: 8.0,
+        shape: CircleBorder(),
+        child: CircleAvatar(
+          backgroundColor: Colors.grey[100],
+          child: FlutterLogo(
+            size: 40.0,
+          ),
+          radius: 30.0,
+      )),
+    ),
+  );   
 
   Widget get _nameSlide => Container(
     color: Colors.blueGrey,
@@ -146,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             child: Text("Link a payment method", 
               style: TextStyle(color: Colors.white, fontSize: 18),),
             color: Colors.blueAccent,
-            onPressed: _pay,
+            onPressed: null,
           ),
 
           MaterialButton(
@@ -154,11 +140,12 @@ class _SignUpScreenState extends State<SignUpScreen>
               style: TextStyle(color: Colors.white, fontSize: 14),),
             color: Colors.blueAccent,
             onPressed: (){
-              router.navigateTo(context, homeRoute,
-                replace: false,
-                transition: TransitionType.fadeIn,
-                transitionDuration: const Duration(milliseconds: 200),
-              );
+              // router.navigateTo(context, homeRoute,
+              //   replace: false,
+              //   transition: TransitionType.fadeIn,
+              //   transitionDuration: const Duration(milliseconds: 200),
+              // );
+              Navigator.pushNamed(context, homeRoute);
             },
           ),
 
@@ -170,12 +157,11 @@ class _SignUpScreenState extends State<SignUpScreen>
   @override
   Widget build(BuildContext context) {
     var children = <Widget>[
-      _nameSlide,
-      _accountSlide,
-      _cardSlide
+      NameSlide(),
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey,
       body: Column(
         children: <Widget>[
@@ -194,39 +180,23 @@ class _SignUpScreenState extends State<SignUpScreen>
                 // ]),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Hero(
-                        tag: "logo",
-                        child: AvatarGlow(
-                          endRadius: 50,
-                          duration: Duration(seconds: 2),
-                          glowColor: Colors.white10,
-                          repeat: true,
-                          repeatPauseDuration: Duration(seconds: 2),
-                          startDelay: Duration(seconds: 1),
-                          child: Material(
-                              elevation: 8.0,
-                              shape: CircleBorder(),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[100],
-                                child: FlutterLogo(
-                                  size: 35.0,
-                                ),
-                                radius: 35.0,
-                              )),
+                      _logo,
+                      Container(
+                        padding: const EdgeInsets.only(top: 13.0),
+                        child: Transform.rotate(
+                            angle: -3 * pi / 2,
+                            child: PageIndicator(
+                              layout: PageIndicatorLayout.SLIDE,
+                              size: 6.0,
+                              activeSize: 6.0,
+                              controller: _pageController,
+                              space: 10.0,
+                              count: children.length,
+                            ),
                         ),
-                      ),
-                      Transform.rotate(
-                          angle: -3 * pi / 2,
-                          child: PageIndicator(
-                            layout: layout,
-                            size: size,
-                            activeSize: activeSize,
-                            controller: _pageController,
-                            space: space,
-                            count: children.length,
-                          ),
                       ),
                   ]),
                 ),

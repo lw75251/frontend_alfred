@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/custom/arrow.dart';
-import 'package:flutter_alfred/routes/router.dart';
+import 'package:flutter_alfred/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:simple_animations/simple_animations/controlled_animation.dart';
@@ -112,8 +110,7 @@ class HomePage extends StatelessWidget {
                     child: GestureDetector(
                       child: _animatedLogo,
                       onTapUp: (details){
-                        router.navigateTo(context, qrRoute, 
-                          transitionDuration: const Duration(milliseconds: 200));
+                        Navigator.pushNamed(context, qrRoute);             
                       },
                     )
                   ),

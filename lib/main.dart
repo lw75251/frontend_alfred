@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_alfred/routes/router.dart';
-import 'package:flutter_alfred/theme.dart' as themes;
+import 'package:flutter_alfred/checkout/bag_screen.dart';
+import 'package:flutter_alfred/login/login_page.dart';
+import 'package:flutter_alfred/login/signup_screen.dart';
+import 'package:flutter_alfred/menu/item_page.dart';
+import 'package:flutter_alfred/menu/nav_page.dart';
+
+import 'package:flutter_alfred/qr_reader/qr_screen.dart';
+import 'package:flutter_alfred/routes.dart';
+// import 'package:flutter_alfred/theme.dart' as themes;
 
 void main() {
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -12,9 +18,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
-  MyApp(){
-    Routes.defineRoutes(router);
-  }
+  // MyApp(){
+  //   Routes.defineRoutes(router);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +31,18 @@ class MyApp extends StatelessWidget {
         // textTheme: themes.textTheme,
         primarySwatch: Colors.lightBlue,
       ),
-      // initialRoute: loginRoute,
-      // initialRoute: menuRoute  ,
-      initialRoute: testRoute,
-      onGenerateRoute: router.generator,
+
+      initialRoute: "/test",
+
+      routes: {
+        "/test": (context) => MenuNavigation(),
+        homeRoute: (context) => MenuNavigation(),
+        loginRoute: (context) => LoginPage(),
+        signupRoute: (context) => SignUpScreen(),
+        itemRoute: (context) => ItemPage(),
+        cartRoute: (context) => CartScreen(),
+        qrRoute: (context) => QRScreen()
+      }      
     );
   }
 }

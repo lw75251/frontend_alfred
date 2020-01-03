@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/routes/router.dart';
 
 class SwiperControls extends StatefulWidget {
   final PageController slideController;
@@ -67,12 +66,13 @@ class _SwiperControlsState extends State<SwiperControls> {
               );
             };          
           
-          router.navigateTo(context, loginRoute,
-            replace: false,
-            transition: TransitionType.custom,
-            transitionDuration: const Duration(milliseconds: 200),
-            transitionBuilder: transition,
-          );
+          // router.navigateTo(context, loginRoute,
+          //   replace: false,
+          //   transition: TransitionType.custom,
+          //   transitionDuration: const Duration(milliseconds: 200),
+          //   transitionBuilder: transition,
+          // );
+          Navigator.pushNamed(context, "/login");
         }
       },
       child: Padding(

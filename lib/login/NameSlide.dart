@@ -15,7 +15,7 @@ class NameSlide extends StatefulWidget {
 
 class _NameSlideState extends State<NameSlide> {
   TextEditingController _textController;
-  int _textLength = 0;
+  // int _textLength = 0;
   
 
 
@@ -27,7 +27,7 @@ class _NameSlideState extends State<NameSlide> {
 
   void _onTextChanged(String text) {
     setState(() {
-      _textLength = text.length;
+      // _textLength = text.length;
     });
   }
 
@@ -55,7 +55,6 @@ class _NameSlideState extends State<NameSlide> {
             )),
           ),
 
-          //TODO: Make this portion scrollable but snaps into place when not
           Expanded(
             flex: 5,
             child: SingleChildScrollView(

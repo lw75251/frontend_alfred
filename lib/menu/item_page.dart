@@ -4,42 +4,6 @@ import 'package:intl/intl.dart';
 
 enum TabsDemoStyle { iconsAndText, iconsOnly, textOnly }
 
-class _Category {
-  final String title;
-  final List<_Item> items;
-
-   _Category({
-    this.title,
-    this.items
-  });
-}
-
-
-class _Item {
-  final String name;
-  final String image;
-  final String description;
-  final double price;
-
-  const _Item({
-    this.name,
-    this.image,
-    this.description,
-    this.price,
-  });
-
-  factory _Item.fromJson(Map<String, dynamic> json) {
-    return _Item(
-      name: json["name"],
-      image: json["image"],
-      description: json["description"],
-      price: json["price"]
-    );
-  }
-
-}
-
-
 class ItemPage extends StatefulWidget {
 
   const ItemPage({Key key}) : super (key: key);
@@ -56,26 +20,6 @@ class _ItemPageState extends State<ItemPage> with TickerProviderStateMixin {
     symbol: "\$"
   ); 
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   Color _color = Color(0xFF7A9BEE);
-  //   TextStyle _textStyle = TextStyle(
-  //     color: Colors.white
-  //   );
-  //   return Scaffold(
-  //     backgroundColor: _color,
-  //     appBar: AppBar(
-  //       elevation: 0,
-  //       backgroundColor: _color,
-  //       title: Text("My Plate", style: _textStyle),
-  //     ),
-  //     body: Container(
-  //       height: MediaQuery.of(context).size.height,
-  //       width: MediaQuery.of(context).size.width,
-
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

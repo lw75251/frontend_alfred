@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/routes/router.dart';
 
 class CategoryTile extends StatelessWidget {
   const CategoryTile({Key key}) : super(key: key);
@@ -8,8 +7,6 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        router.navigateTo(context, menuRoute, 
-          transitionDuration: const Duration(milliseconds: 200));
       },
       child: Container(
         height: 100, width: 150,
