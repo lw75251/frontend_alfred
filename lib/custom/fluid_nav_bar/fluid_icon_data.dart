@@ -32,4 +32,18 @@ class FluidFillIcons {
     ui.Path()..addRRect(RRect.fromLTRBXY(-10, -2, 10, 10, 2, 2)),
     ui.Path()..moveTo(-14, -2)..lineTo(14, -2)..lineTo(0, -16)..close(),
   ]);
+  static final cart = FluidFillIconData([
+    ui.Path()..moveTo(-12, -6)..lineTo(-8, -6)
+      ..lineTo(-6,6)..quadraticBezierTo(-6, 6, -4, 8)
+      ..lineTo(6, 8)..quadraticBezierTo(6, 8, 8, 6)
+      ..lineTo(9,-2)..lineTo(-6,-2),
+
+    ui.Path()..arcTo(Rect.fromLTRB(2, 8, 6, 12), 0, 1.9 * math.pi, true),
+    ui.Path()..arcTo(Rect.fromLTRB(-4, 8, 0, 12), 0, 1.9 * math.pi, true),
+  ]);
+  static final menu = FluidFillIconData([
+    ui.Path()..moveTo(-8, -4)..lineTo(5, -4),
+    ui.Path()..moveTo(-8, 0)..lineTo(5, 0),
+    ui.Path()..moveTo(-8, 4)..lineTo(5, 4),
+  ]);  
 }

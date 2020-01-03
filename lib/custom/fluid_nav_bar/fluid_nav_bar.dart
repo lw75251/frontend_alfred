@@ -11,10 +11,14 @@ class FluidNavBar extends StatefulWidget {
 
   static const double nominalHeight = 56.0;
 
+  // final List<FluidFillIconData> icons;
+  // final List<Color> tabColors;
   final FluidNavBarChangeCallback onChange;
   final Color color;
 
   FluidNavBar({
+    // this.icons,
+    // this.tabColors,
     this.color = Colors.white,
     this.onChange 
   });
@@ -28,6 +32,7 @@ class _FluidNavBarState extends State<FluidNavBar> with TickerProviderStateMixin
 
   AnimationController _xController;
   AnimationController _yController;
+  // AnimationController _colorController;
 
   @override
   void initState() {
@@ -39,6 +44,10 @@ class _FluidNavBarState extends State<FluidNavBar> with TickerProviderStateMixin
       vsync: this,
       animationBehavior: AnimationBehavior.preserve
     );
+    // _colorController = AnimationController(
+    //   vsync: this,
+    //   duration: 
+    // );
 
     Listenable.merge([ _xController, _yController ]).addListener(() {
       setState(() {
@@ -115,7 +124,7 @@ class _FluidNavBarState extends State<FluidNavBar> with TickerProviderStateMixin
   List<FluidNavBarButton> _buildButtons() {
     List<FluidFillIconData> icons = [
       FluidFillIcons.home,
-      // FluidFillIcons.user,
+      FluidFillIcons.cart,
       FluidFillIcons.window,
     ];
     var buttons = List<FluidNavBarButton>(icons.length);
@@ -140,7 +149,7 @@ class _FluidNavBarState extends State<FluidNavBar> with TickerProviderStateMixin
   double _indexToPosition(int index) {
     // Calculate button positions based off of their
     // index (works with `MainAxisAlignment.spaceAround`)
-    const buttonCount = 2;
+    const buttonCount = 3;
     final appWidth = MediaQuery.of(context).size.width;
     final buttonsWidth = _getButtonContainerWidth();
     final startX = (appWidth - buttonsWidth) / 2;

@@ -35,6 +35,7 @@ dependencies:
   arrow_path: ^1.0.0  
   flutter_swiper: ^1.1.6  
   flutter_page_indicator:
+  badges: ^1.1.0
   image_picker: ^0.6.2+1
   flutter_qr_reader: ^1.0.3
   flutter_rating_bar: ^3.0.0

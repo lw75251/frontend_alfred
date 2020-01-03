@@ -47,7 +47,7 @@ class Routes {
     router.define(signUpRoute, handler: signUpHandler);
     router.define(homeRoute, handler: homeHandler);
     router.define(qrRoute, handler: qrHandler);
-    router.define(menuRoute, handler: menuHandler, transitionType: TransitionType.inFromRight);
-    router.define(checkoutRoute, handler: checkoutHandler, transitionType: TransitionType.fadeIn);
+    router.define(menuRoute, handler: menuHandler);
+    router.define(checkoutRoute, handler: checkoutHandler);
   }
 }

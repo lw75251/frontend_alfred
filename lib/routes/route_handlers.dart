@@ -2,19 +2,15 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/main/checkout/bag_screen.dart';
 import 'package:flutter_alfred/main/home/landing_page.dart';
-import 'package:flutter_alfred/main/login/SignupPage.dart';
 import 'package:flutter_alfred/main/login/login_page.dart';
 import 'package:flutter_alfred/main/login/signup_screen.dart';
-import 'package:flutter_alfred/main/menu/item_page.dart';
-import 'package:flutter_alfred/main/menu/me&u_page.dart';
+import 'package:flutter_alfred/main/menu/nav_page.dart';
 import 'package:flutter_alfred/qr_reader/qr_screen.dart';
-
-import '../main/menu/menu_page.dart';
 
 
 Handler testHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return MenuScreen();
+    return BottomNavigationBarController();
   });
 
 
@@ -41,10 +37,10 @@ Handler qrHandler = Handler(
 
 Handler menuHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return MeAndUScreen();
+    return BottomNavigationBarController();
   });
 
 Handler checkoutHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return CheckoutScreen();
+    return CartScreen();
   });  
