@@ -1,54 +1,33 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_alfred/models/OrderModels.dart';
+import 'package:flutter_alfred/models/PaymentModels.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter_alfred/payment/custom/NavigationButton.dart';
 import 'package:flutter_alfred/payment/custom/OrderSummaryBlock.dart';
+import 'package:braintree_payment/braintree_payment.dart';
 import 'package:provider/provider.dart';
-import 'package:square_in_app_payments/in_app_payments.dart';
-import 'package:square_in_app_payments/models.dart';
 
-class PaymentPage extends StatelessWidget {
+class BrainTreePage extends StatelessWidget {
 
-  const PaymentPage({Key key}) : super (key: key);
+  const BrainTreePage({Key key}) : super (key: key);
 
-  void _pay() { 
-    InAppPayments.setSquareApplicationId("sq0idp-_kKyxYaHI-WWjFt367OuzA");
-    InAppPayments.startCardEntryFlow(
-      onCardNonceRequestSuccess: _cardNonceRequestSucess,
-      onCardEntryCancel: _cardEntryCancel
+  void _pay(BrainTreeClient client, OrderSummary orderSummary) async {
+    String clientNonce = await client.fetchClientToken();
+    BraintreePayment braintreePayment = new BraintreePayment();
+    var data = await braintreePayment.showDropIn(
+      nonce: clientNonce, amount: "2.0", enableGooglePay: true
     );
-  }
-
-  void _cardEntryCancel() {
-    // Cancelled card entry
-  }
-
-  void _cardNonceRequestSucess(CardDetails result) {
-    print(result.nonce);
-
-    InAppPayments.completeCardEntry(
-      onCardEntryComplete: _cardEntryComplete
-    );
-  }
-
-  void _cardEntryComplete() {
-    // Sucess
+    print(data);
+    // client.sendPaymentNonce(data);      
   }
 
   @override
   Widget build(BuildContext context) {
-    final OrderSummary orderSummary = Provider.of<OrderSummary>(context);
-    TextStyle style = TextStyle(
-      color: Colors.black,
-      fontFamily: 'Montserrat',
-      fontSize: 12
-    );
-    TextStyle headerstyle = TextStyle(
-      color: Colors.black,
-      fontFamily: 'Montserrat',
-      fontSize: 16
-    );    
 
+
+    BrainTreeClient client = Provider.of<BrainTreeClient>(context);
+    OrderSummary orderSummary = Provider.of<OrderSummary>(context);
     return Scaffold(
         backgroundColor: Color(0xFF7A9BEE),
         // backgroundColor: Colors.white,
@@ -105,7 +84,12 @@ class PaymentPage extends StatelessWidget {
                 onTap: (){},
               ),
               Divider(color: Colors.grey),
-              OrderSummaryBlock()
+              OrderSummaryBlock(),
+              Divider(),
+              MaterialButton(
+                onPressed: () => _pay(client, orderSummary),
+                child: Text("Pay"),
+              )
             ],
           )
         )

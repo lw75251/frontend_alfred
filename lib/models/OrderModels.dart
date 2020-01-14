@@ -38,6 +38,9 @@ class ItemSummary {
     );
   }
 
+  double get total => quantity * price;
+  String get qname => quantity <= 1 ? name : name + " x$quantity";
+
   void incrementItem() {
     quantity++;
   }
@@ -51,10 +54,19 @@ class ItemSummary {
 class OrderSummary extends ChangeNotifier {
   final String tableId = "test";
   final List<ItemSummary> _items = [];
-
+  
+  double _tip = 0;
   UnmodifiableListView<ItemSummary> get items => UnmodifiableListView(_items);
+
   int get quantity => _items.length == 0 ? 0 : _items.map((item) => item.quantity).reduce((cur, next) => cur + next);
-  double get total => _items.length == 0 ? 0 : _items.map((item) => item.price * item.quantity).reduce((cur, next) => cur + next);
+  double get subtotal => _items.length == 0 ? 0 : _items.map((item) => item.price * item.quantity).reduce((cur, next) => cur + next);
+  double get tax => _items.length == 0 ? 0 : subtotal * 0.035 + 0.15;
+  double get tip => _tip * subtotal;
+  
+  set tip(double percentage) {
+    _tip = percentage;
+    notifyListeners();
+  }
 
   void addItem( ItemSummary item ) {
     _items.add(item);

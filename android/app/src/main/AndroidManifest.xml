@@ -40,6 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
-        </activity>        
+        </activity>   
+        <meta-data android:name="com.google.android.gms.wallet.api.enabled" android:value="true"/>             
     </application>
 </manifest>

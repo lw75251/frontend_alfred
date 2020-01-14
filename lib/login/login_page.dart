@@ -110,13 +110,6 @@ class LoginPage extends StatelessWidget {
           ),
         );
       };
-
-      // router.navigateTo(context, signUpRoute,
-      //   replace: true,
-      //   transition: TransitionType.custom,
-      //   transitionDuration: const Duration(milliseconds: 1000),
-      //   transitionBuilder: transition,
-      // );
       Navigator.pushNamed(context, signupRoute);
     }
 
@@ -158,7 +151,7 @@ class LoginPage extends StatelessWidget {
           SlidingFadeIn(
             delay: _delay + 3000,
             child: RoundedButton(
-              text: "Get Started",
+              text: "Login",
               onSuccess: _navigateToSignInRoute,
             )
           ),
@@ -168,7 +161,7 @@ class LoginPage extends StatelessWidget {
           SlidingFadeIn(
             delay: _delay + 3000,
             child: RoundedButton(
-              text: "Log In",
+              text: "Browse as Guest",
               onSuccess: _navigateToSignInRoute,
             )
           ),

@@ -33,297 +33,124 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     setState(() {});
   }  
 
-  // List<Widget> _buildCartItems(OrderSummary order) {
-  //   List<ItemSummary> items = order.items;
-  //   return items.map((ItemSummary item){
-  //     return Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: <Widget>[
-  //         Row(children: <Widget>[
-  //           Image(
-  //             image: AssetImage(item.image),
-  //             fit: BoxFit.cover,
-  //             height: 75.0,
-  //             width: 75.0,
-  //           ),      
-  //           Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: <Widget>[
-  //               Text(item.name, style: TextStyle(
-  //                 color: Colors.black, fontSize: 16
-  //               ),),
-  //               SizedBox(height: 10.0,),
-  //               Container(
-  //                 height: 30,
-  //                 width: 100,
-  //                 decoration: BoxDecoration(
-  //                   color: _color,
-  //                   borderRadius: BorderRadius.circular(17.0)
-  //                 ),
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //                   children: <Widget>[
-  //                     InkWell(
-  //                       onTap: () => decrementItem(order, item),
-  //                       child: Container(
-  //                         height: 25.0,
-  //                         width: 25.0,
-  //                         decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(7.0),
-  //                           color: _color
-  //                         ),
-  //                         child: Center(
-  //                           child: Icon(
-  //                             Icons.remove,
-  //                             color: Colors.white,
-  //                             size: 16,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Text("${item.quantity}",
-  //                       style: TextStyle(
-  //                           color: Colors.white,
-  //                           fontFamily: 'Montserrat',
-  //                           fontSize: 15.0)),
-  //                     InkWell(
-  //                       onTap: () => incrementItem(item),
-  //                       child: Container(
-  //                         height: 20.0,
-  //                         width: 20.0,
-  //                         decoration: BoxDecoration(
-  //                             borderRadius: BorderRadius.circular(7.0),
-  //                             color: Colors.white),
-  //                         child: Center(
-  //                           child: Icon(
-  //                             Icons.add,
-  //                             color: _color,
-  //                             size: 16.0,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     )                                      
-  //                   ],
-  //                 ),
-  //               ),              
-  //             ],
-  //           ),
-  //         ]),
-  //         Container(
-  //           margin: const EdgeInsets.only(right: 10),
-  //           child: Text(currencyFormat.format(item.price * item.quantity))
-  //         )    
-        
-  //     ]);      
-  //   }).toList();
-  // }
-
   Widget _buildCartItem(OrderSummary order, ItemSummary item) {
     return Container(
-      height: 100,
+      height: 75,
       width: 200,
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      color: Colors.white,
+      margin: const EdgeInsets.symmetric(horizontal: 30.0),
+      decoration: BoxDecoration(
+        color: Color(0xffeca893),
+        borderRadius: BorderRadius.circular(17.0)
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(17.0)
+            ),
             child: Image(
               image: AssetImage(item.image),
-              fit: BoxFit.cover,
+              // fit: BoxFit.cover,
               height: 75.0,
               width: 75.0,
             )
           ),
           Expanded(
+            flex: 3,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
                         Text(
-                          item.name,
+                          item.qname,
                           style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold
+                            fontFamily: 'Montserrat',
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
                           ),
                         ),
                         Text(
-                          currencyFormat.format(item.price),
+                          currencyFormat.format(item.total),
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 15.0,
-                            color: Colors.grey
+                            color: Colors.white
                           ),
-                        )
-                      ],
+                        )                        
+                      ]),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                      Container(
-                        child: Text("Quantity: "),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: _color,
-                          borderRadius: BorderRadius.circular(17.0)
-                        ),
-                        child: Row(children: <Widget>[
-                          InkWell(
-                            onTap: () => decrementItem(order, item),
-                            child: Container(
-                              height: 20.0,
-                              width: 20.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7.0),
-                                  color: _color),
-                              child: Center(
-                                child: Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 16.0,
-                                ),
-                              ),
-                            ),
-                          ),
 
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Text("${item.quantity}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.0)
-                            ),
-                          ),
-
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
                           InkWell(
                             onTap: () => incrementItem(item),
                             child: Container(
                               height: 20.0,
                               width: 20.0,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7.0),
-                                color: Colors.white
+                                  borderRadius: BorderRadius.circular(7.0),
+                                  // color: _color
+                                  color: Colors.transparent
                               ),
                               child: Center(
                                 child: Icon(
-                                  Icons.add,
-                                  color: _color,
+                                  Icons.keyboard_arrow_up,
+                                  color: Colors.white,
+                                  size: 16.0,
+                                ),
+                              ),
+                            ),
+                          ),       
+                          Text("${item.quantity}",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          InkWell(
+                            onTap: () => decrementItem(order, item),
+                            child: Container(
+                              height: 20.0,
+                              width: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7.0),
+                                // color: Colors.white
+                                color: Colors.transparent
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: Colors.white,
                                   size: 16,
                                 ),
                               ),
                             ),
-                          ),     
-                        ]),
+                          ),                                              
+                        ],
                       ),
-                    ])              
-                  ],
-                ),
+                    )
+                ])
               ),
           ),
       ])
     );
   }
 
-  // List<Widget> _buildCartItems(OrderSummary order) {
-  //   List<ItemSummary> items = order.items;
-  //   return items.map((ItemSummary item){
-  //     return Container(
-  //       color: Colors.grey,
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //         children: <Widget>[
-  //           Row(children: <Widget>[
-  //             Image(
-  //               image: AssetImage(item.image),
-  //               fit: BoxFit.cover,
-  //               height: 75.0,
-  //               width: 75.0,
-  //             ),      
-  //             Row(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: <Widget>[
-  //                 Column(children: <Widget>[
-  //                   Text(item.name, style: TextStyle(
-  //                     color: Colors.black, fontSize: 16
-  //                   )),
-  //                   Text(currencyFormat.format(item.price * item.quantity)), 
-  //                 ])
-  //               ]),
-  //           ]),
-              // Container(
-              //   width: 35,
-              //   height: 100,
-              //   decoration: BoxDecoration(
-              //     color: _color,
-              //     borderRadius: BorderRadius.circular(17.0)
-              //   ),
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //     children: <Widget>[
-              //       InkWell(
-              //         onTap: () => incrementItem(item),
-              //         child: Container(
-              //           height: 20.0,
-              //           width: 20.0,
-              //           decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(7.0),
-              //               color: Colors.white),
-              //           child: Center(
-              //             child: Icon(
-              //               Icons.add,
-              //               color: _color,
-              //               size: 16.0,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-
-              //       Text("${item.quantity}",
-              //         style: TextStyle(
-              //             color: Colors.white,
-              //             fontFamily: 'Montserrat',
-              //             fontSize: 15.0)
-              //       ),
-
-              //       InkWell(
-              //         onTap: () => decrementItem(order, item),
-              //         child: Container(
-              //           height: 25.0,
-              //           width: 25.0,
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(7.0),
-              //             color: _color
-              //           ),
-              //           child: Center(
-              //             child: Icon(
-              //               Icons.remove,
-              //               color: Colors.white,
-              //               size: 16,
-              //             ),
-              //           ),
-              //         ),
-              //       ),                                               
-              //     ]),                
-  //             ),
-  //           ]),
-  //     );  
-  //   }).toList();
-  // }
-
+  String quantityToItems(int quantity) => quantity > 1 ? "items" : "item";
 
   @override
   Widget build(BuildContext context) {
     final orderSummary = Provider.of<OrderSummary>(context);
     return Scaffold(
-        backgroundColor: _color,
+        backgroundColor: Color(0xffe48568),
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
@@ -332,7 +159,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: _color,
           elevation: 0.0,
           title: Text('My Order',
               style: TextStyle(
@@ -352,37 +179,61 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                height: 46.0,
-                color: Colors.transparent,
-                child: Center(
-                  child: Text("Total Items: ${orderSummary.quantity} | Total: ${currencyFormat.format(orderSummary.total)}", 
-                    style: TextStyle(color: Colors.white, fontSize: 18)
-                  )
-                ),
-              ),
+              Container(height: 10, color: Color(0xffe48568)),
 
               orderSummary.items.length == 0 ? 
-              Expanded( child: Container(color: Colors.white,)) :
+              Expanded( child: Container()) :
               Expanded(
                 child: Container(
-                  color: Color(0xFFCFCCD6),
-                  // child: ListView(
-                  //   shrinkWrap: true,
-                  //   children: _buildCartItems(orderSummary),
-                  // ),
+                  color: Color(0xffe48568),
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (ctx, int) => _buildCartItem(orderSummary, orderSummary.items[int]),
-                    separatorBuilder: (ctx, int) => SizedBox(height: 10), itemCount: orderSummary.items.length,
+                    separatorBuilder: (ctx, int) => SizedBox(height: 15), itemCount: orderSummary.items.length,
                   ),
+                  // child: ListView.separated(
+                  //   shrinkWrap: true,
+                  //   itemBuilder: (ctx, int) => CartItemCard(itemData: orderSummary.items[int]),
+                  //   separatorBuilder: (ctx, int) => SizedBox(height: 15), itemCount: orderSummary.items.length,
+                  // ),                  
                 ),
               ),
 
               Container(
-                color: Color(0xFFCFCCD6),
-                height: 56.0,
+                margin: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffeca893),
+                        borderRadius: BorderRadius.circular(17.0)
+                      ),                      
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("${orderSummary.quantity} " + quantityToItems(orderSummary.quantity),
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 22.0,
+                                color: Colors.white)),                        
+                          Text("Subtotal: " + currencyFormat.format(orderSummary.subtotal),
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 22.0,
+                                color: Colors.white)),                        
+                        ],
+                      ),
+                    ),
+                    // SizedBox(height: 20.0),
+                    Container(
+                      color: Color(0xffe48568),
+                      height: 56.0,
+                    )
+                  ],
+                ),
               )
             ],
           ),

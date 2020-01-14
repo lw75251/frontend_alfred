@@ -173,32 +173,33 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                         tabs: createTabs(menu)
                       ),
                       Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0)),
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 10.0),
-                            padding: const EdgeInsets.only(top: 25.0, left: 30.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0))
-                            ),
-                            child: TabBarView(
-                              controller: _tabController,
-                              children: menu.asMap().map<int, Widget>((int i, Category category) {
-                                return MapEntry(i,
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                    child: ListView(
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      children: createItems(menu, i),
-                                      ),
-                                  )
-                                );
-                              }).values.toList()                            
-                            ),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0, left: 30.0, right: 30.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(75.0),
+                              topRight: Radius.circular(75.0)
+                              )
+
                           ),
-                        )
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: menu.asMap().map<int, Widget>((int i, Category category) {
+                              return MapEntry(i,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: ListView(
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    children: createItems(menu, i),
+                                    ),
+                                )
+                              );
+                            }).values.toList()                            
+                          ),
+                        ),
                       ),
                       Container(
                         height: 56.0,
