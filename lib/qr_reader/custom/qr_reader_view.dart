@@ -153,7 +153,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
                 callback: _onCreateController,
               ),
             ),
-            if (widget.headerWidget != null) widget.headerWidget,
+            widget.headerWidget != null ? widget.headerWidget : Container(),
             Positioned(
               left: (constraints.maxWidth - qrScanSize) / 2,
               top: (constraints.maxHeight - qrScanSize) * 0.333333,

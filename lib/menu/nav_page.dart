@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alfred/checkout/bag_screen.dart';
 import 'package:flutter_alfred/custom/fluid_nav_bar/fluid_nav_bar.dart';
 import 'package:flutter_alfred/menu/menu_page.dart';
-import 'package:flutter_alfred/payment/payment_page_braintree.dart';
 
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:flutter_alfred/models/PaymentModels.dart';
+import 'package:flutter_alfred/payment/payment_page.dart';
 import 'package:provider/provider.dart';
 
 class MenuNavigation extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MenuNavigationState
     CartScreen(
       key: PageStorageKey("Cart"),
     ),
-    BrainTreePage(
+    PaymentPage(
       key: PageStorageKey("Payment")
     ),
   ];
@@ -56,25 +56,6 @@ class _MenuNavigationState
           )
         ])
       ),
-    );
-
-    // return ChangeNotifierProvider(
-    //   create: (_) => OrderSummary(),
-    //   child: Scaffold(
-    //     body: Stack(children: <Widget>[
-    //       PageStorage(
-    //         child: pages[_selectedIndex],
-    //         bucket: bucket
-    //       ),
-    //       Align(
-    //         alignment: Alignment.bottomCenter,
-    //         child: FluidNavBar(
-    //           color: Color(0xFF21BFBD),
-    //           onChange: (int) => setState(() => _selectedIndex = int),
-    //         )
-    //       )
-    //     ])
-    //   ),
-    // );    
+    );    
   }
 }

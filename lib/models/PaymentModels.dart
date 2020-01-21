@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:braintree_payment/braintree_payment.dart';
 import 'package:http/http.dart' as http;
@@ -33,11 +35,17 @@ class BrainTreeClient extends ChangeNotifier {
   }  
 
   /// Returns Response Code to show correct UI
-  Future<int> sendPaymentNonce(var data) async {
+  Future<int> sendPaymentNonce(var data, double amount) async {
     Map<String, String> headers = {"Content-type": "application/json"};
-    String json = '{"title": "Hello", "body": "body text", "userId": 1}';
-    http.Response response = await http.post(basePath, headers: headers, body: data);
 
+    Map<String, dynamic> body = new Map<String, dynamic>.from(data);
+    body["amount"] = amount;
+    print("Printing $body");
+
+    // print(body);
+    http.Response response = await http.post(basePath, headers: headers, body: jsonEncode(body));
+
+    print(response.body);
     // How to handle reponse code?
     return response.statusCode;
   }    
