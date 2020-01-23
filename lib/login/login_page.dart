@@ -1,4 +1,3 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/login/custom/RoundedButton.dart';
 import 'package:flutter_alfred/login/custom/SlidingFadeIn.dart';

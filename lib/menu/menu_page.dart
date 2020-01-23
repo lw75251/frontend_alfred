@@ -21,6 +21,8 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
+  Future<List<Category>> _menu;
+
   TabController _tabController;
   NumberFormat currencyFormat = NumberFormat.currency(
     // locale: "USD"
@@ -29,6 +31,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _menu = Future.value(getMenu());
     super.initState();
   }
 
@@ -118,7 +121,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     final orderSummary = Provider.of<OrderSummary>(context);
 
     return FutureBuilder(
-        future: getMenu(),
+        future: _menu,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Category> menu = snapshot.data;

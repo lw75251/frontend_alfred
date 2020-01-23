@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:flutter_alfred/models/PaymentModels.dart';
+import 'package:flutter_alfred/models/UserModel.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:flutter_alfred/payment/custom/NavigationButton.dart';
 import 'package:flutter_alfred/payment/custom/OrderSummaryBlock.dart';
 import 'package:braintree_payment/braintree_payment.dart';
@@ -12,15 +12,22 @@ class PaymentPage extends StatelessWidget {
 
   const PaymentPage({Key key}) : super (key: key);
 
-  void _pay(BrainTreeClient client, OrderSummary orderSummary) async {
-    String clientNonce = await client.fetchClientToken();
+  void _pay(User user, BrainTreeClient client, OrderSummary orderSummary) async {
+    // String clientNonce = user.guest ? 
+    //   await client.guestFetchClientToken() : await client.userFetchClientToken(user);
+    String clientNonce = await client.fetchClientToken(user);
+
     BraintreePayment braintreePayment = new BraintreePayment();
+
     try {
       var data = await braintreePayment.showDropIn(
-        nonce: clientNonce, amount: "2.0", enableGooglePay: true
+        amount: orderSummary.subtotal.toString(),
+        nonce: clientNonce, enableGooglePay: true
       );
       if ( data["status"] == "success" ) {
-        client.sendPaymentNonce(data, orderSummary.subtotal);
+        user.guest ? 
+          client.guestSendPaymentNonce(data, orderSummary.subtotal):
+          client.userSendPaymentNonce(user, data, orderSummary.subtotal);
       } else {
         throw new Exception("Nonce Failure");
       }
@@ -32,7 +39,7 @@ class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
+    User user = Provider.of<User>(context);
     BrainTreeClient client = Provider.of<BrainTreeClient>(context);
     OrderSummary orderSummary = Provider.of<OrderSummary>(context);
     return Scaffold(
@@ -94,7 +101,7 @@ class PaymentPage extends StatelessWidget {
               OrderSummaryBlock(),
               Divider(),
               MaterialButton(
-                onPressed: () => _pay(client, orderSummary),
+                onPressed: () => _pay(user, client, orderSummary),
                 child: Text("Pay"),
               )
             ],
