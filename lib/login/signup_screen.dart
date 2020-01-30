@@ -6,8 +6,6 @@ import 'package:flutter_alfred/login/custom/swiper_controls.dart';
 import 'package:flutter_alfred/routes.dart';
 
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
-import 'package:square_in_app_payments/in_app_payments.dart';
-import 'package:square_in_app_payments/models.dart';
 
 
 class SignUpScreen extends StatefulWidget {
@@ -32,35 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen>
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-
-  Future<void> _pay() async {
-    InAppPayments.setSquareApplicationId('sq0idp-_kKyxYaHI-WWjFt367OuzA');
-    await InAppPayments.startCardEntryFlow(
-      onCardNonceRequestSuccess: _cardNonceRequestSuccess,
-      onCardEntryCancel: _cardEntryCancel,
-    );
-  }
-
-  void _cardEntryCancel() {
-    // TODO: If User Cancels Card Entry, what happens?
-  }
-
-  void _cardNonceRequestSuccess(CardDetails result) async {
-    print(result.nonce);
-
-    try {
-      InAppPayments.completeCardEntry(
-        onCardEntryComplete: _cardEntryComplete
-      );
-    } catch (ex) {
-      InAppPayments.showCardNonceProcessingError(ex.toString());
-    }
-
-  }
-
-  void _cardEntryComplete() {
-    // TODO: On Sucess
-  }
 
   @override
   void dispose() {
@@ -145,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             child: Text("Link a payment method", 
               style: TextStyle(color: Colors.white, fontSize: 18),),
             color: Colors.blueAccent,
-            onPressed: _pay,
+            onPressed: null,
           ),
 
           MaterialButton(

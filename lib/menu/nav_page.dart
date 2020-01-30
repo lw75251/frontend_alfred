@@ -6,6 +6,7 @@ import 'package:flutter_alfred/menu/menu_page.dart';
 
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:flutter_alfred/models/PaymentModels.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
 import 'package:flutter_alfred/payment/payment_page.dart';
 import 'package:provider/provider.dart';
@@ -36,19 +37,23 @@ class _MenuNavigationState
 
   @override
   Widget build(BuildContext context) {
-    final User user = ModalRoute.of(context).settings.arguments ?? 
-    User(
-      uid: "5e2895df6e4f4e3be836bfab",
-      brainTreeId: "655246893",
-      email: "lw75251@gmail.com",
-      firstName: "Leon",
-      lastName: "Wu",
-      phoneNumber: "123.456.7890"
+    final Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
+
+    final User user = arguments["user"] ?? User(
+      brainTreeId: "guest",
+      firstName: "Guest",
+      lastName: "User",
     );
+    final Restaurant restaurant = arguments["restaurant"] ?? Restaurant(
+      restaurantId: "5e29f3481c9d440000be868f",
+      tableId: "Table 1"
+    );
+
     
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: user),
+        ChangeNotifierProvider.value(value: restaurant),
         ChangeNotifierProvider(create: (_) => OrderSummary()),
         ChangeNotifierProvider(create: (_) => BrainTreeClient(basePath: "http://10.0.2.2:3000/payment"))
       ],

@@ -12,11 +12,12 @@ class PaymentPage extends StatelessWidget {
 
   const PaymentPage({Key key}) : super (key: key);
 
-  void _pay(User user, BrainTreeClient client, OrderSummary orderSummary) async {
-    // String clientNonce = user.guest ? 
-    //   await client.guestFetchClientToken() : await client.userFetchClientToken(user);
-    String clientNonce = await client.fetchClientToken(user);
+  void _test(User user, OrderSummary orderSummary) {
+    orderSummary.sendOrderSummary(user);
+  }
 
+  void _pay(User user, BrainTreeClient client, OrderSummary orderSummary) async {
+    String clientNonce = await client.fetchClientToken(user);
     BraintreePayment braintreePayment = new BraintreePayment();
 
     try {
@@ -25,9 +26,11 @@ class PaymentPage extends StatelessWidget {
         nonce: clientNonce, enableGooglePay: true
       );
       if ( data["status"] == "success" ) {
-        user.guest ? 
-          client.guestSendPaymentNonce(data, orderSummary.subtotal):
-          client.userSendPaymentNonce(user, data, orderSummary.subtotal);
+        int postOrderStatus = await orderSummary.sendOrderSummary(user);
+        if ( postOrderStatus == 201 ) {
+          client.sendPaymentNonce(user, data, orderSummary.subtotal);
+        }
+        // await orderSummary.sendOrderSummary(user);
       } else {
         throw new Exception("Nonce Failure");
       }
@@ -102,6 +105,7 @@ class PaymentPage extends StatelessWidget {
               Divider(),
               MaterialButton(
                 onPressed: () => _pay(user, client, orderSummary),
+                // onPressed: () => _test(user, orderSummary),
                 child: Text("Pay"),
               )
             ],

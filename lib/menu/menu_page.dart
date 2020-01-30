@@ -45,7 +45,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       Category category = Category(
         title: object["category"],
         items: itemData.map<Item>( 
-          (item) => Item.fromJson(item)
+          (item) => Item.fromJson(item, object["category"])
         ).toList()
       );
       _menu.add(category);

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
+import 'package:flutter_alfred/models/UserModel.dart';
 import 'package:flutter_alfred/qr_reader/custom/flutter_qr_reader.dart';
 import 'package:flutter_alfred/qr_reader/custom/qr_reader_view.dart';
+import 'package:flutter_alfred/routes.dart';
 // import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 // import 'package:flutter_qr_reader/qrcode_reader_view.dart';
 
@@ -40,22 +45,43 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
   }
 
   Future onScan(String data) async {
-    await showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text("Scanning Results"),
-          content: Text(data),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text("Confirm"),
-              onPressed: () => Navigator.pop(context),
-            )
-          ],
-        );
-      },
+    // await showCupertinoDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return CupertinoAlertDialog(
+    //       title: Text("Scanning Results"),
+    //       content: Text(data),
+    //       actions: <Widget>[
+    //         CupertinoDialogAction(
+    //           child: Text("Confirm"),
+    //           onPressed: () => Navigator.pop(context),
+    //         )
+    //       ],
+    //     );
+    //   },
+    // );
+
+    var tableData = jsonDecode(data);
+    print(tableData);
+    Restaurant restaurant = Restaurant.fromJson(tableData);
+
+    User user = User(
+      uid: "5e29ebf0f6302410ac820c80",
+      brainTreeId: "574810489",
+      email: "lw75251@gmail.com",
+      firstName: "Leon",
+      lastName: "Wu",
+      phoneNumber: "123.456.7890"
     );
-    _key.currentState.startScan();
+    Navigator.pushReplacementNamed(context, homeRoute,
+      arguments: {
+        "user": user,
+        "restaurant": restaurant
+      }
+    );
+
+
+    // _key.currentState.startScan();
   }
 
   @override

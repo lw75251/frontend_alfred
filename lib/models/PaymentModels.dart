@@ -22,7 +22,7 @@ class BrainTreeClient extends ChangeNotifier {
 
   Future<String> fetchClientToken(User user) async {
     final String path = basePath + "/client_token/" + user.brainTreeId;
-    print(path);
+    // final String path = basePath + "/client_token/";
     final response = await http.get(path);
 
     if (response.statusCode == 200) {
@@ -33,52 +33,9 @@ class BrainTreeClient extends ChangeNotifier {
       throw Exception('Failed to load post');
     }
   }
-
-  Future<String> guestFetchClientToken() async {
-    final String path = basePath + "/client_token/guest";
-    final response = await http.get(path);
-
-    if (response.statusCode == 200) {
-      clientToken = response.body;
-      return clientToken;
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
-    }
-  }
-
-  Future<String> userFetchClientToken(User user) async {
-    final String path = basePath + "/client_token";
-
-    Map<String, dynamic> data = {
-      "brainTreeId": user.brainTreeId,
-    };
-
-    final response = await http.get(path);
-
-    if (response.statusCode == 200) {
-      clientToken = response.body;
-      return clientToken;
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
-    }
-  }    
-
+  
   /// Returns Response Code to show correct UI
-  Future<int> guestSendPaymentNonce(var data, double amount) async {
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Map<String, dynamic> body = new Map<String, dynamic>.from(data);
-    body["amount"] = amount;
-
-    http.Response response = await http.post(basePath, headers: headers, body: jsonEncode(body));
-    // How to handle reponse code?
-    return response.statusCode;
-  }    
-
-  /// Returns Response Code to show correct UI
-  Future<int> userSendPaymentNonce(User user, var data, double amount) async {
+  Future<int> sendPaymentNonce(User user, var data, double amount) async {
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Map<String, dynamic> body = new Map<String, dynamic>.from(data);

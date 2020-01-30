@@ -1,10 +1,14 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/MenuModels.dart';
+import 'package:flutter_alfred/models/UserModel.dart';
+import 'package:http/http.dart' as http;
 
 class ItemSummary {
   final String name;
+  final String category;
   final String image;
   final String description;
   final double price;
@@ -13,6 +17,7 @@ class ItemSummary {
 
   ItemSummary({
     this.name,
+    this.category,
     this.image,
     this.description,
     this.price,
@@ -22,6 +27,7 @@ class ItemSummary {
   factory ItemSummary.fromJson(Map<String, dynamic> json) {
     return ItemSummary(
       name: json["name"],
+      category: json["category"],
       image: json["image"],
       description: json["description"],
       price: json["price"]
@@ -31,12 +37,22 @@ class ItemSummary {
   factory ItemSummary.fromItem(Item item, int quantity) {
     return ItemSummary(
       name: item.name,
+      category: item.category,
       quantity: quantity,
       image: item.image,
       description: item.description,
       price: item.price,
     );
   }
+
+  Map<String, dynamic> toJson() => 
+  {
+    "name": name,
+    "category": category,
+    "image": image,
+    "price": price,
+    "quantity": quantity
+  };
 
   double get total => quantity * price;
   String get qname => quantity <= 1 ? name : name + " x$quantity";
@@ -55,6 +71,23 @@ class OrderSummary extends ChangeNotifier {
   final String tableId = "test";
   final List<ItemSummary> _items = [];
   
+  String toJson(User user) {
+    List<dynamic> items = _items.map((itemSummary) => itemSummary.toJson()).toList();
+
+    Map<String, dynamic> data = {
+      "customerId": user.uid,
+      "restaurantId": "123",
+      "tableId": "Table 2",
+      "items": items,
+      "totalCost": subtotal,
+      "tip": tip,
+      "location": "150 Commons Way",
+      "epochTime": "2919402024" 
+    };
+
+    return jsonEncode(data);
+  }
+
   double _tip = 0;
   UnmodifiableListView<ItemSummary> get items => UnmodifiableListView(_items);
 
@@ -85,4 +118,16 @@ class OrderSummary extends ChangeNotifier {
     print("Order Summary");
     _items.forEach((item) => print("${item.name}: ${item.quantity}"));
   }
+
+  /// Returns Response Code to show correct UI
+  Future<int> sendOrderSummary(User user) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String basePath = "http://10.0.2.2:3000/order"; 
+
+    var data = toJson(user);
+
+    http.Response response = await http.post(basePath, headers: headers, body: data);
+    return response.statusCode;
+  }   
+
 }

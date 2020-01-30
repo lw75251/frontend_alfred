@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/test",
 
       routes: {
-        "/test": (context) => MenuNavigation(),
+        "/test": (context) => QRScreen(),
         homeRoute: (context) => MenuNavigation(),
         loginRoute: (context) => LoginPage(),
         signupRoute: (context) => SignUpScreen(),
