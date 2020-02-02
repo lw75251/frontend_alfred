@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/checkout/bag_screen.dart';
-import 'package:flutter_alfred/login/login_page.dart';
-import 'package:flutter_alfred/login/signup_screen.dart';
+import 'package:flutter_alfred/login/LoginPage.dart';
 import 'package:flutter_alfred/menu/item_page.dart';
 import 'package:flutter_alfred/menu/nav_page.dart';
 
@@ -35,10 +34,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/test",
 
       routes: {
-        "/test": (context) => QRScreen(),
+        "/test": (context) => LoginPage(),
         homeRoute: (context) => MenuNavigation(),
-        loginRoute: (context) => LoginPage(),
-        signupRoute: (context) => SignUpScreen(),
         itemRoute: (context) => ItemPage(),
         cartRoute: (context) => CartScreen(),
         qrRoute: (context) => QRScreen()

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/MenuModels.dart';
+import 'package:flutter_alfred/routes.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -22,13 +23,13 @@ class Restaurant extends ChangeNotifier {
   }
 
   Future<List<Category>> getMenu() async {
-    final String path = "http://10.0.2.2:3000/restaurant/" + restaurantId;
+    final String path = productionPath + "/restaurant/$restaurantId/menu";
     final response = await http.get(path);
-    List<dynamic> _jsonData = jsonDecode(response.body);
-
+    var _jsonData = jsonDecode(response.body);
+    var _jsonCategories = _jsonData["body"]["categories"];
     List<Category> _menu = new List<Category>();
 
-    _jsonData.forEach((object) {
+    _jsonCategories.forEach((object) {
       List<dynamic> itemData = object["items"];
       Category category = Category(
         title: object["category"],

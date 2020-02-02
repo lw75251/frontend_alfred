@@ -50,12 +50,17 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
               color: Colors.white,
               borderRadius: BorderRadius.circular(17.0)
             ),
-            child: Image(
-              image: AssetImage(item.image),
-              // fit: BoxFit.cover,
+            // child: Image(
+            //   image: AssetImage(item.image),
+            //   // fit: BoxFit.cover,
+            //   height: 75.0,
+            //   width: 75.0,
+            // )
+            child: SizedBox(
               height: 75.0,
-              width: 75.0,
-            )
+              width: 75.0
+            ),
+
           ),
           Expanded(
             flex: 3,

@@ -20,15 +20,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^3.2.0
+  provider: ^4.0.2
   http: ^0.12.0+4
 
   intl: ^0.16.0
+  flutter_login: ^1.0.14
   simple_animations: ^1.3.4
-  separated_row: ^1.0.1+2
-  
-  permission_handler: ^4.0.0
-  
+
+  permission_handler: ^4.0.0  
   braintree_payment: ^1.2.2
 
   avatar_glow:

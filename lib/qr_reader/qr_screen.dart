@@ -24,6 +24,8 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
   QrReaderViewController _controller;
   bool isOk = false;
   String data;
+  User user;
+
 
   GlobalKey<QrcodeReaderViewState> _key = GlobalKey();
 
@@ -45,41 +47,26 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
   }
 
   Future onScan(String data) async {
-    // await showCupertinoDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return CupertinoAlertDialog(
-    //       title: Text("Scanning Results"),
-    //       content: Text(data),
-    //       actions: <Widget>[
-    //         CupertinoDialogAction(
-    //           child: Text("Confirm"),
-    //           onPressed: () => Navigator.pop(context),
-    //         )
-    //       ],
-    //     );
-    //   },
-    // );
-
     var tableData = jsonDecode(data);
-    print(tableData);
     Restaurant restaurant = Restaurant.fromJson(tableData);
 
-    User user = User(
-      uid: "5e29ebf0f6302410ac820c80",
-      brainTreeId: "574810489",
-      email: "lw75251@gmail.com",
-      firstName: "Leon",
-      lastName: "Wu",
-      phoneNumber: "123.456.7890"
-    );
+    // User user = User(
+    //   uid: "5e29ebf0f6302410ac820c80",
+    //   brainTreeId: "574810489",
+    //   email: "lw75251@gmail.com",
+    //   firstName: "Leon",
+    //   lastName: "Wu",
+    //   phoneNumber: "123.456.7890"
+    // );
+    final Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
+    user = arguments["user"];    
+
     Navigator.pushReplacementNamed(context, homeRoute,
       arguments: {
         "user": user,
         "restaurant": restaurant
       }
     );
-
 
     // _key.currentState.startScan();
   }

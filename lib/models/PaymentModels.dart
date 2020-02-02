@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:braintree_payment/braintree_payment.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
+import 'package:flutter_alfred/routes.dart';
 import 'package:http/http.dart' as http;
 
 class BrainTreeClient extends ChangeNotifier {
@@ -21,10 +22,9 @@ class BrainTreeClient extends ChangeNotifier {
   }
 
   Future<String> fetchClientToken(User user) async {
-    final String path = basePath + "/client_token/" + user.brainTreeId;
-    // final String path = basePath + "/client_token/";
+    final String path = productionPath + "/payment/client_token/${user.brainTreeId}";
+    print(path);
     final response = await http.get(path);
-
     if (response.statusCode == 200) {
       clientToken = response.body;
       return clientToken;

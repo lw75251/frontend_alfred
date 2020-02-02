@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alfred/custom/scrollable_tab_bar.dart';
 import 'package:flutter_alfred/models/MenuModels.dart';
 import 'package:flutter_alfred/models/OrderModels.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -24,14 +25,13 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   Future<List<Category>> _menu;
 
   TabController _tabController;
-  NumberFormat currencyFormat = NumberFormat.currency(
-    // locale: "USD"
-    symbol: "\$"
-  ); 
+  NumberFormat currencyFormat = NumberFormat.currency(symbol: "\$");
+  String test = ""; 
 
   @override
   void initState() {
-    _menu = Future.value(getMenu());
+    // _menu = Future.value(getMenu());
+    // _menu = Future.value(restaurant.getMenu());
     super.initState();
   }
 
@@ -67,12 +67,18 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Flexible(
             child: Row(children: <Widget>[
-              Image(
-                image: AssetImage(item.image),
-                fit: BoxFit.cover,
+              // Image(
+              //   image: AssetImage(item.image),
+              //   fit: BoxFit.cover,
+              //   height: 75.0,
+              //   width: 75.0,
+              // ),    
+              SizedBox(
+                // image: AssetImage(item.image),
+                // fit: BoxFit.cover,
                 height: 75.0,
                 width: 75.0,
-              ),          
+              ),                        
               Flexible(
                 child: Container(
                   margin: const EdgeInsets.only(left: 10.0),
@@ -119,9 +125,24 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Color _textColor = Colors.white;
     final orderSummary = Provider.of<OrderSummary>(context);
+    final restaurant = Provider.of<Restaurant>(context);
+
+    // return Scaffold(
+    //   body: Center(
+    //     child: MaterialButton(
+    //       color: Colors.blue,
+    //       child: Text(test),
+    //       onPressed: () async {
+    //         await restaurant.getMenu();
+    //       },
+    //     ),
+    //   ),
+    // );
+
 
     return FutureBuilder(
-        future: _menu,
+        // future: _menu,
+        future: restaurant.getMenu(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Category> menu = snapshot.data;

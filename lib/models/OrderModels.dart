@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/MenuModels.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
+import 'package:flutter_alfred/routes.dart';
 import 'package:http/http.dart' as http;
 
 class ItemSummary {
@@ -122,7 +123,7 @@ class OrderSummary extends ChangeNotifier {
   /// Returns Response Code to show correct UI
   Future<int> sendOrderSummary(User user) async {
     Map<String, String> headers = {"Content-type": "application/json"};
-    String basePath = "http://10.0.2.2:3000/order"; 
+    String basePath = productionPath + "/order"; 
 
     var data = toJson(user);
 
