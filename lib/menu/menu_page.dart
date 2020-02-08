@@ -67,15 +67,10 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Flexible(
             child: Row(children: <Widget>[
-              // Image(
-              //   image: AssetImage(item.image),
-              //   fit: BoxFit.cover,
-              //   height: 75.0,
-              //   width: 75.0,
-              // ),    
               SizedBox(
-                // image: AssetImage(item.image),
-                // fit: BoxFit.cover,
+                child: Image(
+                  image: NetworkImage("https://alfredexpresstest.s3.amazonaws.com/food_images/${item.image}"),
+                ),
                 height: 75.0,
                 width: 75.0,
               ),                        

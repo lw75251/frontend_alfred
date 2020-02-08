@@ -57,10 +57,12 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
             //   width: 75.0,
             // )
             child: SizedBox(
-              height: 75.0,
-              width: 75.0
-            ),
-
+                child: Image(
+                  image: NetworkImage("https://alfredexpresstest.s3.amazonaws.com/food_images/${item.image}"),
+                ),
+                height: 75.0,
+                width: 75.0,
+              ),       
           ),
           Expanded(
             flex: 3,

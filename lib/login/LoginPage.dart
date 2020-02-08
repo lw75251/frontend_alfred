@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/login/test.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
 import 'package:flutter_alfred/routes.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<String> _signUp(LoginData data) async {
-    final String path = testEmulatorPath + "/user";
+    final String path = productionPath + "/user";
     Map<String, String> headers = {"Content-type": "application/json"};
     var json = jsonEncode({
       "email": data.name,
@@ -117,9 +118,22 @@ class _LoginPageState extends State<LoginPage> {
         // Navigator.of(context).pushReplacement(MaterialPageRoute(
         //   builder: (context) => TestScreen(),
         // ));
-        Navigator.of(context).pushReplacementNamed(qrRoute,
+        // Navigator.of(context).pushReplacementNamed(qrRoute,
+        //   arguments: {
+        //     "user": user
+        //   }
+        // );
+
+
+        Restaurant restaurant = Restaurant(
+          restaurantId: "5e29f3481c9d440000be868f",
+          tableId: "Table 2"
+        );
+
+        Navigator.of(context).pushReplacementNamed(homeRoute,
           arguments: {
-            "user": user
+            "user": user,
+            "restaurant": restaurant
           }
         );
       },

@@ -50,14 +50,15 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
     var tableData = jsonDecode(data);
     Restaurant restaurant = Restaurant.fromJson(tableData);
 
-    // User user = User(
-    //   uid: "5e29ebf0f6302410ac820c80",
-    //   brainTreeId: "574810489",
-    //   email: "lw75251@gmail.com",
-    //   firstName: "Leon",
-    //   lastName: "Wu",
-    //   phoneNumber: "123.456.7890"
-    // );
+    User user = User(
+      uid: "5e29ebf0f6302410ac820c80",
+      brainTreeId: "574810489",
+      email: "lw75251@gmail.com",
+      firstName: "Leon",
+      lastName: "Wu",
+      phoneNumber: "123.456.7890"
+    );
+
     final Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     user = arguments["user"];    
 

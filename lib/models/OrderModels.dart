@@ -128,6 +128,7 @@ class OrderSummary extends ChangeNotifier {
     var data = toJson(user);
 
     http.Response response = await http.post(basePath, headers: headers, body: data);
+    print(response.statusCode);
     return response.statusCode;
   }   
 
