@@ -23,7 +23,6 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   Future<List<Category>> _menu;
-
   TabController _tabController;
   NumberFormat currencyFormat = NumberFormat.currency(symbol: "\$");
   String test = ""; 

@@ -1,5 +1,5 @@
 final String testRoute = "/test";
-final String homeRoute = "/";
+final String homeRoute = "/home";
 final String loginRoute = "/login";
 final String signupRoute = "/signup";
 final String itemRoute = "/item";

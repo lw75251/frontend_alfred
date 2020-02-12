@@ -4,12 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
-import 'package:flutter_alfred/qr_reader/custom/flutter_qr_reader.dart';
 import 'package:flutter_alfred/qr_reader/custom/qr_reader_view.dart';
 import 'package:flutter_alfred/routes.dart';
-// import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-// import 'package:flutter_qr_reader/qrcode_reader_view.dart';
-
 import 'package:permission_handler/permission_handler.dart';
 
 
@@ -21,7 +17,7 @@ class QRScreen extends StatefulWidget {
 }
 
 class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin {
-  QrReaderViewController _controller;
+  // QrReaderViewController _controller;
   bool isOk = false;
   String data;
   User user;
@@ -50,14 +46,14 @@ class _QRScreenState extends State<QRScreen> with SingleTickerProviderStateMixin
     var tableData = jsonDecode(data);
     Restaurant restaurant = Restaurant.fromJson(tableData);
 
-    User user = User(
-      uid: "5e29ebf0f6302410ac820c80",
-      brainTreeId: "574810489",
-      email: "lw75251@gmail.com",
-      firstName: "Leon",
-      lastName: "Wu",
-      phoneNumber: "123.456.7890"
-    );
+    // User user = User(
+    //   uid: "5e29ebf0f6302410ac820c80",
+    //   brainTreeId: "574810489",
+    //   email: "lw75251@gmail.com",
+    //   firstName: "Leon",
+    //   lastName: "Wu",
+    //   phoneNumber: "123.456.7890"
+    // );
 
     final Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     user = arguments["user"];    

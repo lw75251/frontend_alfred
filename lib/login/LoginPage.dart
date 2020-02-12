@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_alfred/login/test.dart';
 import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
 import 'package:flutter_alfred/routes.dart';
@@ -36,21 +35,16 @@ class _LoginPageState extends State<LoginPage> {
       body: json
     );
 
-    print(response.statusCode);
-    print(response.body);
-    var userData = jsonDecode(response.body)["user"];
-    user = User.fromJson(userData);
-
-    return null;
-    // return Future.delayed(loginTime).then((_) {
-    //   if (!users.containsKey(data.name)) {
-    //     return 'Username not exists';
-    //   }
-    //   if (users[data.name] != data.password) {
-    //     return 'Password does not match';
-    //   }  
-    //   return null;
-    // });
+    if ( response.statusCode == 200 ) {
+      var userData = jsonDecode(response.body)["user"];
+      user = User.fromJson(userData);
+      return null;
+    } else if ( response.statusCode == 401 ) {
+      return "Password does not match";
+    } else {
+      // Status Code: 503
+      return "Account does not exisit";
+    }
   }
 
   Future<String> _signUp(LoginData data) async {
@@ -72,15 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     user = User.fromJson(userData);
 
     return null;
-    // return Future.delayed(loginTime).then((_) {
-    //   if (!users.containsKey(data.name)) {
-    //     return 'Username not exists';
-    //   }
-    //   if (users[data.name] != data.password) {
-    //     return 'Password does not match';
-    //   }  
-    //   return null;
-    // });
   }
 
   Future<String> _authUser(LoginData data) {
@@ -115,9 +100,6 @@ class _LoginPageState extends State<LoginPage> {
       onLogin: _loginUser,
       onSignup: _signUp,
       onSubmitAnimationCompleted: () {
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //   builder: (context) => TestScreen(),
-        // ));
         // Navigator.of(context).pushReplacementNamed(qrRoute,
         //   arguments: {
         //     "user": user

@@ -100,7 +100,6 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
       color: Colors.black,
       child: LayoutBuilder(builder: (context, constraints) {
         final qrScanSize = constraints.maxWidth * widget.scanBoxRatio;
-        final mediaQuery = MediaQuery.of(context);
         if (constraints.maxHeight < qrScanSize * 1.5) {
           print("The recommended height to height ratio of the scanning area is greater than 1");
         }

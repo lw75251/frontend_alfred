@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/OrderModels.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,9 @@ class OrderSummaryBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _summary = Provider.of<OrderSummary>(context); 
+    // final OrderSummary summary = Provider.of<OrderSummary>(context);
+    final Restaurant restaurant = Provider.of<Restaurant>(context);
+
     TextStyle style = TextStyle(
       color: Colors.grey,
       fontFamily: 'Montserrat',
@@ -26,75 +29,94 @@ class OrderSummaryBlock extends StatelessWidget {
       fontWeight: FontWeight.bold,      
       fontSize: 18
     );         
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Your Order",
-                  style: headerstyle,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, int) 
-                    => Text(_summary.items[int].qname,
-                      style: style,
-                    ),
-                  itemCount: _summary.items.length,
-                )
-              ],
+    return Consumer<OrderSummary>(
+      builder: (context, summary, child) => 
+      Container(
+        padding: const EdgeInsets.all(10.0),
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[                      
+                        Text("Your Order",
+                          style: headerstyle,
+                        ),
+                        Divider(color: Colors.grey),
+                      ],
+                    ) 
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: summary.items.length,
+                    itemBuilder: (ctx, int) 
+                      => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(summary.items[int].qname,
+                            style: style,
+                          ),
+                          Text(currencyFormat.format(summary.items[int].total))
+                        ],
+                      ),
+                  ),
+                  SizedBox(height: 5.0,)
+                ],
+              ),
             ),
-          ),
-
-          Divider(color: Colors.grey),
-
-          Container(
-            margin: const EdgeInsets.only(top: 8.0),
-            child: Column(children: <Widget>[
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Subtotal", style: style,),
-                  Text("${currencyFormat.format(_summary.subtotal)}", 
-                    style: style,
-                  )
-                ],
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Tax",
-                    style: style
-                  ),
-                  Text("${currencyFormat.format(_summary.subtotal)}",
-                    style: style,
-                  )
-                ],
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Discounts",
-                    style: style,
-                  ),
-                  Text("${currencyFormat.format(_summary.subtotal)}")
-                ],
-              ), 
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Total", 
-                    style: headerstyle,
-                  ),
-                  Text("${currencyFormat.format(_summary.subtotal)}",
-                    style: headerstyle,
-                  )
-                ],
-              ),                            
-            ]),
-          )
-
-        ],
+            Divider(color: Colors.grey),
+            Container(
+              margin: const EdgeInsets.only(top: 8.0),
+              child: Column(children: <Widget>[
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Order Subtotal", style: style,),
+                    Text("${currencyFormat.format(summary.ordertotal)}", 
+                      style: style,
+                    )
+                  ],
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Tax",
+                      style: style
+                    ),
+                    Text("${currencyFormat.format(summary.taxTest(restaurant.state))}",
+                      style: style,
+                    )
+                  ],
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Processing Fee",
+                      style: style
+                    ),
+                    Text("${currencyFormat.format(summary.fee)}",
+                      style: style,
+                    )
+                  ],
+                ),              
+                SizedBox(height: 12.0),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Total", 
+                      style: headerstyle,
+                    ),
+                    Text("${currencyFormat.format(summary.total)}",
+                      style: headerstyle,
+                    )
+                  ],
+                ),                            
+              ]),
+            )
+          ],
+        ),
       ),
     ); 
     

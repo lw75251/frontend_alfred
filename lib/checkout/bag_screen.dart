@@ -50,12 +50,6 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
               color: Colors.white,
               borderRadius: BorderRadius.circular(17.0)
             ),
-            // child: Image(
-            //   image: AssetImage(item.image),
-            //   // fit: BoxFit.cover,
-            //   height: 75.0,
-            //   width: 75.0,
-            // )
             child: SizedBox(
                 child: Image(
                   image: NetworkImage("https://alfredexpresstest.s3.amazonaws.com/food_images/${item.image}"),
@@ -140,7 +134,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                 ),
                               ),
                             ),
-                          ),                                              
+                          ),
                         ],
                       ),
                     )
@@ -208,40 +202,41 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                 ),
               ),
 
+              // Container(
+              //   margin: const EdgeInsets.all(15.0),
+              //   child: Column(
+              //     children: <Widget>[
+              //       Container(
+              //         decoration: BoxDecoration(
+              //           color: Color(0xffeca893),
+              //           borderRadius: BorderRadius.circular(17.0)
+              //         ),                      
+              //         padding: const EdgeInsets.all(20.0),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: <Widget>[
+              //             Text("${orderSummary.quantity} " + quantityToItems(orderSummary.quantity),
+              //               style: TextStyle(
+              //                   fontFamily: 'Montserrat',
+              //                   fontSize: 22.0,
+              //                   color: Colors.white)),                        
+              //             Text("Subtotal: " + currencyFormat.format(orderSummary.subtotal),
+              //               style: TextStyle(
+              //                   fontFamily: 'Montserrat',
+              //                   fontSize: 22.0,
+              //                   color: Colors.white)),                        
+              //           ],
+              //         ),
+              //       ),
+              //       // SizedBox(height: 20.0),
+              //     ],
+              //   ),
+              // ),
+
               Container(
-                margin: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffeca893),
-                        borderRadius: BorderRadius.circular(17.0)
-                      ),                      
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("${orderSummary.quantity} " + quantityToItems(orderSummary.quantity),
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 22.0,
-                                color: Colors.white)),                        
-                          Text("Subtotal: " + currencyFormat.format(orderSummary.subtotal),
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 22.0,
-                                color: Colors.white)),                        
-                        ],
-                      ),
-                    ),
-                    // SizedBox(height: 20.0),
-                    Container(
-                      color: Color(0xffe48568),
-                      height: 56.0,
-                    )
-                  ],
-                ),
-              )
+                color: Color(0xffe48568),
+                height: 56.0,
+              )              
             ],
           ),
         )

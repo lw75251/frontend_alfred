@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:flutter_alfred/models/PaymentModels.dart';
+import 'package:flutter_alfred/models/RestaurantModel.dart';
 import 'package:flutter_alfred/models/UserModel.dart';
 
 import 'package:flutter_alfred/payment/custom/NavigationButton.dart';
 import 'package:flutter_alfred/payment/custom/OrderSummaryBlock.dart';
 import 'package:braintree_payment/braintree_payment.dart';
+import 'package:flutter_alfred/payment/custom/TipBlock.dart';
 import 'package:provider/provider.dart';
 
 class PaymentPage extends StatelessWidget {
@@ -22,13 +24,13 @@ class PaymentPage extends StatelessWidget {
 
     try {
       var data = await braintreePayment.showDropIn(
-        amount: orderSummary.subtotal.toString(),
+        amount: orderSummary.total.toString(),
         nonce: clientNonce, enableGooglePay: true
       );
       if ( data["status"] == "success" ) {
         int postOrderStatus = await orderSummary.sendOrderSummary(user);
         if ( postOrderStatus == 201 ) {
-          client.sendPaymentNonce(user, data, orderSummary.subtotal);
+          client.sendPaymentNonce(user, data, orderSummary.total);
         }
         // await orderSummary.sendOrderSummary(user);
       } else {
@@ -43,11 +45,24 @@ class PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     User user = Provider.of<User>(context);
+    Restaurant restaurant = Provider.of<Restaurant>(context);
     BrainTreeClient client = Provider.of<BrainTreeClient>(context);
     OrderSummary orderSummary = Provider.of<OrderSummary>(context);
+
+    TextStyle style = TextStyle(
+      color: Colors.grey,
+      fontFamily: 'Montserrat',
+      fontSize: 16
+    );
+    TextStyle headerstyle = TextStyle(
+      color: Colors.black,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.bold,      
+      fontSize: 18
+    );         
     return Scaffold(
-        backgroundColor: Color(0xFF7A9BEE),
-        // backgroundColor: Colors.white,
+        // backgroundColor: Color(0xFF7A9BEE),
+        backgroundColor: Color(0xFFF5F5DC),
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
@@ -75,34 +90,50 @@ class PaymentPage extends StatelessWidget {
           ],
         ),
         body: Container(
-          color: Colors.white,
+          margin: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             children: <Widget>[
               Container(
+                color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Dine In at"),
-                    Text("Bridgewater"),
-                    Text("610 Commons Way, Bridgewater, NJ 08807")
+                    Text(restaurant.name, 
+                      style: headerstyle,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.timer),
+                        Text("Ready in 20 minutes"),
+                      ],
+                    ),
+                    Text(restaurant.address,
+                      style: style,
+                    ),
                   ],
                 ),
               ),
               
-              NavigationButton(
-                title: "Contact Information",
-                description: "Leon Wu, (201) 602-9688",
-                onTap: (){},
-              ),
-              Divider(color: Colors.grey),
-              NavigationButton(
-                title: "Payment Method",
-                description: "Add a credit or debit card",
-                onTap: (){},
-              ),
-              Divider(color: Colors.grey),
+              // NavigationButton(
+              //   title: "Contact Information",
+              //   description: "Leon Wu, (201) 602-9688",
+              //   onTap: (){},
+              // ),
+              // Divider(color: Colors.grey),
+              
+              SizedBox(height: 16.0),
+              // NavigationButton(
+              //   title: "Payment Method",
+              //   description: "Add a credit or debit card",
+              //   onTap: (){},
+              // ),
+              // Divider(color: Colors.grey),
+
               OrderSummaryBlock(),
-              Divider(),
+
+              TipBlock(),
+
+
               MaterialButton(
                 onPressed: () => _pay(user, client, orderSummary),
                 // onPressed: () => _test(user, orderSummary),

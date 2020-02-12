@@ -41,25 +41,17 @@ class _MenuNavigationState
     final Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
 
     final User user = arguments["user"];
-    
-    // final User user = User(
-    //   brainTreeId: "guest",
-    //   firstName: "Guest",
-    //   lastName: "User",
-    // );
-
     final Restaurant restaurant = arguments["restaurant"];
-    // final Restaurant restaurant = Restaurant(
-    //   restaurantId: "5e29f3481c9d440000be868f",
-    //   tableId: "Table 1"
-    // );
-
     
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: user),
         ChangeNotifierProvider.value(value: restaurant),
-        ChangeNotifierProvider(create: (_) => OrderSummary()),
+        ChangeNotifierProvider(create: (_) => OrderSummary(
+          userId: user.uid,
+          restaurantId: restaurant.restaurantId,
+          state: restaurant.state
+        )),
         ChangeNotifierProvider(create: (_) => BrainTreeClient(basePath: productionPath))
       ],
       child: Scaffold(
