@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alfred/models/OrderModels.dart';
 import 'package:flutter_alfred/models/RestaurantModel.dart';
+import 'package:flutter_alfred/payment/custom/TipBlock.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -103,6 +104,11 @@ class OrderSummaryBlock extends StatelessWidget {
                   ],
                 ),              
                 SizedBox(height: 12.0),
+
+                SizedBox(height: 16.0),
+                TipBlock(),
+                SizedBox(height: 16.0),
+
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Total", 

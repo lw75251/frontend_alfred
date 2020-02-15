@@ -8,6 +8,7 @@ import 'package:flutter_alfred/payment/custom/NavigationButton.dart';
 import 'package:flutter_alfred/payment/custom/OrderSummaryBlock.dart';
 import 'package:braintree_payment/braintree_payment.dart';
 import 'package:flutter_alfred/payment/custom/TipBlock.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PaymentPage extends StatelessWidget {
@@ -43,7 +44,7 @@ class PaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    NumberFormat currencyFormat = NumberFormat.currency(symbol: "\$"); 
     User user = Provider.of<User>(context);
     Restaurant restaurant = Provider.of<Restaurant>(context);
     BrainTreeClient client = Provider.of<BrainTreeClient>(context);
@@ -61,8 +62,8 @@ class PaymentPage extends StatelessWidget {
       fontSize: 18
     );         
     return Scaffold(
-        // backgroundColor: Color(0xFF7A9BEE),
-        backgroundColor: Color(0xFFF5F5DC),
+        backgroundColor: Color(0xFF7A9BEE),
+        // backgroundColor: Color(0xFFF5F5DC),
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
@@ -131,13 +132,13 @@ class PaymentPage extends StatelessWidget {
 
               OrderSummaryBlock(),
 
-              TipBlock(),
+              // TipBlock(),
 
 
               MaterialButton(
                 onPressed: () => _pay(user, client, orderSummary),
                 // onPressed: () => _test(user, orderSummary),
-                child: Text("Pay"),
+                child: Text("Continue to checkout: ${currencyFormat.format(orderSummary.total)}"),
               )
             ],
           )
